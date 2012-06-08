@@ -2,7 +2,7 @@ import argparse
 import sys
 from os.path import exists
 
-sys.path.insert(0, 'lib') # add the lib/ directory, containing project python libraries
+sys.path.insert(0, 'lib') # add the lib/ directory to the PYTHONPATH
 
 from tesseract_training import TesseractTrainer
 
