@@ -42,7 +42,7 @@ I'd advise you to combine this `TesseractTrainer` class with the `argparse.Argum
 	                    The path of a file containing font properties for a list of fonts.
 	--tessdata-path TESSDATA_PATH, -p TESSDATA_PATH
 	                    The path of the tessdata/ directory on your filesystem.
-	--tesseract-lang TESSERACT_LANG, -t TESSERACT_LANG
+	--tesseract-lang TESSERACT_LANG, -l TESSERACT_LANG
 	                    Set the tesseract language traineddata to create.
 	--word_list WORD_LIST, -w WORD_LIST
 	                    The path of a file containing a list of frequent words.

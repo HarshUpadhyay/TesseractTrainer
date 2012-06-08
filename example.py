@@ -39,7 +39,7 @@ if __name__ == '__main__':
         help="The path of a file containing font properties for a list of fonts.")
     parser.add_argument('--tessdata-path', '-p', type=str, action='store', default='/usr/local/share/tessdata/', 
         help="The path of the tessdata/ directory on your filesystem.")
-    parser.add_argument('--tesseract-lang', '-t', type=str, action='store', required=True, help="Set the tesseract language traineddata to create.") 
+    parser.add_argument('--tesseract-lang', '-l', type=str, action='store', required=True, help="Set the tesseract language traineddata to create.") 
     parser.add_argument('--word_list', '-w', type=str, action='store', default=None, help="The path of a file containing a list of frequent words.")
     args = parser.parse_args()    
 
