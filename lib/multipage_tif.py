@@ -2,9 +2,8 @@
 API alloiwing the user to generate "black on white" multipage tif images using a specified text, font and font-size,
 and to generate "box-files": a file containing a list of characters and their associated box coordinates
 and page number.
-
-Author: Balthazar Rouberol <rouberol.b@gmail.com>
 """
+
 import Image
 import ImageFont
 import ImageDraw
