@@ -36,19 +36,25 @@ if __name__ == '__main__':
     # Parse training arguments
     parser = argparse.ArgumentParser(description='Tesseract training arguments.')
     # Required arguments
-    parser.add_argument('--tesseract-lang', '-l', type=str, action='store', required=True, help="Set the tesseract language traineddata to create.") 
-    parser.add_argument('--training-text', '-t', type=str, action='store', required=True, help="The path of the training text.")
+    parser.add_argument('--tesseract-lang', '-l', type=str, action='store', required=True, 
+        help="Set the tesseract language traineddata to create.") 
+    parser.add_argument('--training-text', '-t', type=str, action='store', required=True, 
+        help="The path of the training text.")
     parser.add_argument('--font-path', '-F', type=str, action='store', required=True, 
         help="The path of TrueType/OpenType file of the used training font.")
-    parser.add_argument('--font-name', '-n', type=str, action='store', required=True, help="The name of the used training font. No spaces.")
+    parser.add_argument('--font-name', '-n', type=str, action='store', required=True, 
+        help="The name of the used training font. No spaces.")
     # Optional arguments
-    parser.add_argument('--experience_number', '-e', type=int, action='store', default=0, help="The number of the training experience.")
+    parser.add_argument('--experience_number', '-e', type=int, action='store', default=0, 
+        help="The number of the training experience.")
     parser.add_argument('--font-properties', '-f', type=str, action='store' , default="./font_properties",        
         help="The path of a file containing font properties for a list of training fonts.")
-    parser.add_argument('--font-size', '-s', type=int, action='store', default=25, help="The font size of the training font, in px.")
+    parser.add_argument('--font-size', '-s', type=int, action='store', default=25, 
+        help="The font size of the training font, in px.")
     parser.add_argument('--tessdata-path', '-p', type=str, action='store', default='/usr/local/share/tessdata/', 
         help="The path of the tessdata/ directory on your filesystem.")
-    parser.add_argument('--word_list', '-w', type=str, action='store', default=None, help="The path of a file containing a list of frequent words.")
+    parser.add_argument('--word_list', '-w', type=str, action='store', default=None, 
+        help="The path of a file containing a list of frequent words.")
     args = parser.parse_args()    
 
     perform_security_checks(args) # Check validity of args
