@@ -48,7 +48,7 @@ I'd advise you to combine this `TesseractTrainer` class with the `argparse.Argum
 ## Conventions and remarks
 
 * The training image must be named `{dictionary_name}.{font_name}.exp{experience_number}.tif`.
-* If your `tessdata` directory is not writable without superuser rights,  
+* If your `tessdata` directory is not writable without superuser rights, use the `sudo` command when executing your python script.
 
 
 ## FreeBSD license
