@@ -1,4 +1,5 @@
 import argparse
+import sys
 from os.path import exists
 from training_framework import TesseractTrainer
 

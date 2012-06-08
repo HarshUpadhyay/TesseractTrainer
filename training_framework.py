@@ -36,7 +36,9 @@ either expressed or implied, of the FreeBSD Project.
 """
 
 import sys
+import shutil
 from os import system
+from os.path import join
 
 class TesseractTrainer:
     """ Object handling the training process of tesseract """
@@ -137,6 +139,5 @@ class TesseractTrainer:
     def add_trained_data(self):
         """ Copy the newly trained data to the tessdata/ directory """
         traineddata = '%s.traineddata' %(self.dictionary_name)
-        print 'Copying %s to %s. We need your password for that.' %(traineddata, self.tessdata_path)
-        cmd = 'sudo cp %s %s' %(traineddata, self.tessdata_path)
-        system(cmd)
+        print 'Copying %s to %s.' %(traineddata, self.tessdata_path)
+        shutil.copyfile(traineddata, join(self.tessdata_path, traineddata))
