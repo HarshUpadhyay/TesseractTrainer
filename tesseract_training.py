@@ -51,17 +51,17 @@ class TesseractTrainer:
         self.tessdata_path = tessdata_path
         self.word_list = word_list
 
-    def generate_boxfile(self):
+    def _generate_boxfile(self):
         """ Generate a boxfile from the training image """
         cmd = 'tesseract {prefix}.tif {prefix} batch.nochop makebox'.format(prefix = self.prefix)
         system(cmd)
     
-    def train_on_boxfile(self):
+    def _train_on_boxfile(self):
         """ Run tesseract on training mode, using the generated boxfiles """
         cmd = 'tesseract {prefix}.tif {prefix} nobatch box.train'.format(prefix = self.prefix)
         system(cmd)
 
-    def compute_character_set(self):
+    def _compute_character_set(self):
         """ Computes the character properties set: isalpha, isdigit, isupper, islower, ispunctuation
         and encode it in the 'unicharset' data file 
 
@@ -79,23 +79,23 @@ class TesseractTrainer:
         cmd = 'unicharset_extractor %s.box ' %(self.prefix)
         system(cmd)
 
-    def clustering(self):
+    def _clustering(self):
         """ Cluster character features from all the training pages, and create characters prototype """
         cmd = 'mftraining -F font_properties -U unicharset %s.tr ' %(self.prefix)
         system(cmd)
 
-    def normalize(self):
+    def _normalize(self):
         """ Generate the 'normproto' data file (the character normalization sensitivity prototypes) """
         cmd = 'cntraining %s.tr ' %(self.prefix)
         system(cmd)
 
-    def rename_files(self):
+    def _rename_files(self):
         """ Add the self.dictionary_name prefix to each file generated during the tesseract training process """
         for f in ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto']:
             cmd = 'mv %s %s.%s' %(f, self.dictionary_name, f)
             system(cmd)
 
-    def dictionary_data(self):
+    def _dictionary_data(self):
         """ Generate dictionaries, coded as a Directed Acyclic Word Graph (DAWG), 
         from the list of frequent words if those were submitted during the Trainer initialization. 
         """
@@ -103,20 +103,20 @@ class TesseractTrainer:
             freq = 'wordlist2dawg %s %s.freq-dawg %s.unicharset' %(self.word_list, self.dictionary_name, self.dictionary_name)
             system(freq)
 
-    def combine_data(self):
+    def _combine_data(self):
         cmd = 'combine_tessdata %s.' %(self.dictionary_name)
         system(cmd)
 
     def training(self):
         """ Execute all training steps """
-        self.generate_boxfile()
-        self.train_on_boxfile()
-        self.compute_character_set()
-        self.clustering()
-        self.normalize()
-        self.rename_files()
-        self.dictionary_data()
-        self.combine_data()
+        self._generate_boxfile()
+        self._train_on_boxfile()
+        self._compute_character_set()
+        self._clustering()
+        self._normalize()
+        self._rename_files()
+        self._dictionary_data()
+        self._combine_data()
         print('The %s.traineddata file has been generated !' %(self.dictionary_name))
 
     def clean(self):
