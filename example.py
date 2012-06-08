@@ -1,7 +1,7 @@
 import argparse
 import sys
 from os.path import exists
-from training_framework import TesseractTrainer
+from tesseract_training import TesseractTrainer
 
 
 def perform_security_checks(args):
