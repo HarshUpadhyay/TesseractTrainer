@@ -31,7 +31,9 @@ class MultiPageTif(object):
         self.indiv_page_prefix = 'page'
 
     def generate_tif(self):
-        """ Create several individual tifs from text and merge them into a multi-page tif, and finally delete all individual tifs """
+        """ Create several individual tifs from text and merge them 
+        into a multi-page tif, and finally delete all individual tifs
+        """
         self._fill_pages()
         self._multipage_tif()
         self._clean()

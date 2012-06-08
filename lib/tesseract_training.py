@@ -49,7 +49,8 @@ class TesseractTrainer:
 
     def __init__(self, text, exp_number, dictionary_name, font_name, font_size, font_path,
      font_properties, tessdata_path, word_list):
-        self.training_text = open(args.text).read().replace("\n", " ") # we replace all \n by " ": we'll split the text over " "s
+        self.training_text = open(args.text).read().replace("\n", " ") # we replace all \n by " "
+        # as : we'll split the text over " "s
         self.exp_number = exp_number
         self.dictionary_name = dictionary_name
         self.font_name = font_name
@@ -64,7 +65,8 @@ class TesseractTrainer:
         """ Generate a multipage tif, filled with the training text and generate a boxfile
         from the coordinates of the characters inside it 
         """
-        mp = MultiPageTif(self.training_text, 800, 600, 20, 20, self.font_name, self.font_path, self.font_size, self.exp_number, self.dictionary_name)
+        mp = MultiPageTif(self.training_text, 800, 600, 20, 20, self.font_name, self.font_path, 
+            self.font_size, self.exp_number, self.dictionary_name)
         mp.generate_tif()
         mp.generate_boxfile()
     
@@ -112,7 +114,8 @@ class TesseractTrainer:
         from the list of frequent words if those were submitted during the Trainer initialization. 
         """
         if self.word_list:
-            freq = 'wordlist2dawg %s %s.freq-dawg %s.unicharset' %(self.word_list, self.dictionary_name, self.dictionary_name)
+            freq = 'wordlist2dawg %s %s.freq-dawg %s.unicharset' %(self.word_list, self.dictionary_name, 
+                self.dictionary_name)
             system(freq)
 
     def _combine_data(self):
