@@ -49,6 +49,7 @@ I'd advise you to combine this `TesseractTrainer` class with the `argparse.Argum
 
 * The training image must be named `{dictionary_name}.{font_name}.exp{experience_number}.tif`.
 * If your `tessdata` directory is not writable without superuser rights, use the `sudo` command when executing your python script.
+* Do not forget to describe your font properties in a file (parser default value: "font_properties"), following [these instructions](https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3#font_properties_%28new_in_3.01%29).
 
 
 ## FreeBSD license
