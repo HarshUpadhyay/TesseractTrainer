@@ -5,7 +5,7 @@ A small training framework for Tesseract 3.x, taking over the tedious manual pro
 of training Tesseract 3described in the Tesseract Wiki:
 https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 
-Written by Balthazar Rouberol, <balthazar@strongsteam.com>, @BaltoRouberol
+Written by Balthazar Rouberol, <rouberol.b@gmail.com>, @BaltoRouberol
 
 
 Copyright (c) 2012, Balthazar Rouberol
@@ -38,24 +38,34 @@ either expressed or implied, of the FreeBSD Project.
 
 import sys
 import shutil
+
 from os import system
 from os.path import join
+
+from multipage_tif import MultiPageTif
 
 class TesseractTrainer:
     """ Object handling the training process of tesseract """
 
-    def __init__(self, exp_number, dictionary_name, font_name, font_properties, tessdata_path, word_list):
+    def __init__(self, text, exp_number, dictionary_name, font_name, font_size, font_path, font_properties, tessdata_path, word_list):
+        self.training_text = text
+        self.exp_number = exp_number
         self.dictionary_name = dictionary_name
         self.font_name = font_name
-        self.prefix = '%s.%s.exp%s' %(self.dictionary_name, self.font_name, str(exp_number))
+        self.font_path = font_path
+        self.font_size = font_size
+        self.prefix = '%s.%s.exp%s' %(self.dictionary_name, self.font_name, str(self.exp_number))
         self.font_properties = font_properties
         self.tessdata_path = tessdata_path
         self.word_list = word_list
 
     def _generate_boxfile(self):
-        """ Generate a boxfile from the training image """
-        cmd = 'tesseract {prefix}.tif {prefix} batch.nochop makebox'.format(prefix = self.prefix)
-        system(cmd)
+        """ Generate a multipage tif, filled with the training text and generate a boxfile
+        from the coordinates of the characters inside it 
+        """
+        mp = MultiPageTif(self.training_text, 800, 600, 20, 20, self.font_name, self.font_path, self.font_size, self.exp_number, self.dictionary_name)
+        mp.generate_tif()
+        mp.generate_boxfile()
     
     def _train_on_boxfile(self):
         """ Run tesseract on training mode, using the generated boxfiles """
