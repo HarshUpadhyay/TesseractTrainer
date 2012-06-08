@@ -30,6 +30,11 @@ This class has only 4 public methods:
 
 I'd advise you to combine this `TesseractTrainer` class with the `argparse.ArgumentParser` (and associated security checks) I defined in `example.py`.
 
+## Tif generation
+During the training process, a (multi-page) tif will be generated using the `lib/multipage_tif.py` module, 
+from the input `text`, `font_name`, `font_size` arguments.
+The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_number}.tif`.
+
 ## Usage
 
 	usage: example.py [-h] 
