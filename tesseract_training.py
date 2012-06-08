@@ -2,7 +2,8 @@
 
 """
 A small training framework for Tesseract 3.x, taking over the tedious manual process
-described in the Tesseract Wiki: https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
+of training Tesseract 3described in the Tesseract Wiki:
+https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 
 Written by Balthazar Rouberol, <balthazar@strongsteam.com>, @BaltoRouberol
 
