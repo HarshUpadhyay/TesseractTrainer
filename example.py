@@ -1,6 +1,9 @@
 import argparse
 import sys
 from os.path import exists
+
+sys.path.insert(0, 'lib') # add the lib/ directory, containing project python libraries
+
 from tesseract_training import TesseractTrainer
 
 
@@ -51,7 +54,7 @@ if __name__ == '__main__':
     perform_security_checks(args) # Check validity of args
 
     text = open(args.training_text).read().replace("\n", " ") # we split replace all \n by " " as we'll split the text over white spaces
-    
+
     # Training process
     trainer = TesseractTrainer(text, args.experience_number, args.tesseract_lang, args.font_name, 
         args.font_size, args.font_path, args.font_properties, args.tessdata_path, args.word_list)
