@@ -15,7 +15,7 @@ The `tesseract_training.py` file offers a very simple API, defined through the c
 This class has only 4 public methods:
 
 * `__init__(self, exp_number, dictionary_name, font_name, font_properties, tessdata_path, word_list)`: returns a `TesseractTrainer` instance
-* `training(self)`: performs all training operations, thus returning a `traineddata` file.
+* `training(self)`: performs all training operations, thus creating a `traineddata` file.
 * `add_trained_data(self)`: copies the generated `traineddata` file to your `tessdata` directory 
 * `clean(self)`: deletes all files generated during the training process (except for the `traineddata` one).
 
