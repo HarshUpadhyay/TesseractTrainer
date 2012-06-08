@@ -23,10 +23,12 @@ I'd advise you to combine this `TesseractTrainer` class with the `argparse.Argum
 
 ## Usage
 
-	example.py [-h] [--experience_number EXPERIENCE_NUMBER] --font-name
-	                  FONT_NAME [--font-properties FONT_PROPERTIES]
-	                  [--tessdata-path TESSDATA_PATH] --tesseract-lang
-	                  TESSERACT_LANG [--word_list WORD_LIST]
+	example.py [-h] --font-name FONT_NAME  
+					--tesseract-lang TESSERACT_LANG
+	                [--experience_number EXPERIENCE_NUMBER]
+	                [--font-properties FONT_PROPERTIES]
+	                [--tessdata-path TESSDATA_PATH]  
+	                [--word_list WORD_LIST]
 
 **Tesseract training arguments**
 
