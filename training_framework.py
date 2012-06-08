@@ -117,11 +117,11 @@ class TesseractTrainer:
         self.rename_files()
         self.dictionary_data()
         self.combine_data()
-        print 'The %s.traineddata file has been generated !' %(self.dictionary_name)
+        print('The %s.traineddata file has been generated !' %(self.dictionary_name))
 
     def clean(self):
         """ Remove all files generated during tesseract training process """
-        print 'cleaning...'
+        print('cleaning...')
         cmd = 'rm '
         cmd += '%s.tr ' %(self.prefix)
         cmd += '%s.txt ' %(self.prefix)
@@ -139,5 +139,6 @@ class TesseractTrainer:
     def add_trained_data(self):
         """ Copy the newly trained data to the tessdata/ directory """
         traineddata = '%s.traineddata' %(self.dictionary_name)
-        print 'Copying %s to %s.' %(traineddata, self.tessdata_path)
+        print('Copying %s to %s.' %(traineddata, self.tessdata_path))
         shutil.copyfile(traineddata, join(self.tessdata_path, traineddata))
+        

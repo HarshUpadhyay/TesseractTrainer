@@ -14,19 +14,19 @@ def perform_security_checks(args):
     """
     tifname = '.'.join([args.tesseract_lang, args.font_name, 'exp'+str(args.experience_number)]) + '.tif'
     if not exists(tifname):
-        print "The %s file does not exist. Aborting." %(tifname)
+        print("The %s file does not exist. Aborting." %(tifname))
         sys.exit(1)
 
     if not exists(args.tessdata_path):
-        print "The %s directory does not exist. Aborting." %(args.tessdata_path)
+        print("The %s directory does not exist. Aborting." %(args.tessdata_path))
         sys.exit(1)
 
     if " " in args.font_name:
-        print "The --font-name / -F argument must not contain any spaces. Aborting."
+        print("The --font-name / -F argument must not contain any spaces. Aborting.")
         sys.exit(1)
 
     if args.font_name not in open(args.font_properties, 'r').read().split():
-        print "The font properties of %s have not been defined in %s. Aborting." %(args.font_name, args.font_properties)
+        print("The font properties of %s have not been defined in %s. Aborting." %(args.font_name, args.font_properties))
         sys.exit(1)
 
 if __name__ == '__main__':
@@ -50,3 +50,4 @@ if __name__ == '__main__':
     trainer.training()
     trainer.clean()
     trainer.add_trained_data()
+    
