@@ -17,7 +17,7 @@ class TesseractTrainer:
 
     def __init__(self, text, exp_number, dictionary_name, font_name, font_size, font_path,
      font_properties, tessdata_path, word_list):
-        self.training_text = open(args.text).read().replace("\n", " ") # we replace all \n by " "
+        self.training_text = open(text).read().replace("\n", " ") # we replace all \n by " "
         # as : we'll split the text over " "s
         self.exp_number = exp_number
         self.dictionary_name = dictionary_name

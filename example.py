@@ -62,7 +62,7 @@ if __name__ == '__main__':
     perform_security_checks(args) # Check validity of args
 
     # Training process
-    trainer = TesseractTrainer(text, args.experience_number, args.tesseract_lang, args.font_name, 
+    trainer = TesseractTrainer(args.training_text, args.experience_number, args.tesseract_lang, args.font_name, 
         args.font_size, args.font_path, args.font_properties, args.tessdata_path, args.word_list)
     trainer.training()
     trainer.clean()
