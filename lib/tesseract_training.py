@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 A small training framework for Tesseract 3.x, taking over the tedious manual process
 of training Tesseract 3described in the Tesseract Wiki:
