@@ -1,6 +1,7 @@
 """
-API alloiwing the user to generate "black on white" multipage tif images using a specified text, font and font-size,
-and to generate "box-files": a file containing a list of characters and their associated box coordinates
+API allowing the user to generate "black on white" multipage tif images 
+using a specified text, font and font-size, and to generate "box-files": 
+a file containing a list of characters and their associated box coordinates
 and page number.
 """
 
@@ -113,7 +114,7 @@ class MultiPageTif(object):
 
     def _multipage_tif(self):
         """ Generate a multipage tif from all the generated tifs.
-        The multipage tif will be named #self.prefix}.tif
+        The multipage tif will be named {self.prefix}.tif
         """
         tiffcp = ["tiffcp"]
         tifs = glob.glob(self.indiv_page_prefix + '*.tif')
