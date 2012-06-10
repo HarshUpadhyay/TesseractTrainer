@@ -42,7 +42,7 @@ class MultiPageTif(object):
         The boxfile will be named {self.prefix}.box
         """
         boxfile_path = self.prefix + '.box'
-        print "Generating boxfile %s" %(boxfile_path)
+        print("Generating boxfile %s" %(boxfile_path))
         with open(boxfile_path, 'w') as boxfile:
             for boxline in self.boxlines:
                 boxfile.write(boxline + '\n')
@@ -69,7 +69,7 @@ class MultiPageTif(object):
         page_nb = 0
         x_pos = self.start_x
         y_pos = self.start_y
-        print 'Generating individual tif image %s' %(self.indiv_page_prefix +  str(page_nb) + '.tif')
+        print('Generating individual tif image %s' %(self.indiv_page_prefix +  str(page_nb) + '.tif'))
         for word in self.text:
             word += ' '  # add a space between each word 
             wordsize_w, wordsize_h = self.font.getsize(word)
@@ -87,7 +87,7 @@ class MultiPageTif(object):
                     y_pos = self.start_y
                     self._save_tif(tif, page_nb)
                     page_nb += 1
-                    print 'Generating individual tif image %s' %(self.indiv_page_prefix +  str(page_nb) + '.tif')
+                    print('Generating individual tif image %s' %(self.indiv_page_prefix +  str(page_nb) + '.tif'))
                     tif = self._new_tif()
                     draw = ImageDraw.Draw(tif)
             # write word
@@ -121,12 +121,12 @@ class MultiPageTif(object):
         tiffcp.extend(tifs)
         multitif_name = self.prefix + '.tif'
         tiffcp.append(multitif_name)
-        print 'Generating multipage-tif %s' % (multitif_name)
+        print('Generating multipage-tif %s' % (multitif_name))
         subprocess.call(tiffcp)
         
     def _clean(self):
         """ Remove all generated individual tifs """
-        print "Removing all individual tif images"
+        print("Removing all individual tif images")
         tifs = glob.glob('%s*' %(self.indiv_page_prefix))
         for tif in tifs:
             os.remove(tif)
