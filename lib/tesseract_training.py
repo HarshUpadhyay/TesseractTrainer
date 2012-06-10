@@ -7,7 +7,7 @@ https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 import sys
 import shutil
 
-from os import system
+from os import system, remove, rename
 from os.path import join
 
 from multipage_tif import MultiPageTif
@@ -63,19 +63,18 @@ class TesseractTrainer:
 
     def _clustering(self):
         """ Cluster character features from all the training pages, and create characters prototype """
-        cmd = 'mftraining -F font_properties -U unicharset %s.tr ' %(self.prefix)
+        cmd = 'mftraining -F font_properties -U unicharset %s.tr' %(self.prefix)
         system(cmd)
 
     def _normalize(self):
         """ Generate the 'normproto' data file (the character normalization sensitivity prototypes) """
-        cmd = 'cntraining %s.tr ' %(self.prefix)
+        cmd = 'cntraining %s.tr' %(self.prefix)
         system(cmd)
 
     def _rename_files(self):
         """ Add the self.dictionary_name prefix to each file generated during the tesseract training process """
         for f in ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto']:
-            cmd = 'mv %s %s.%s' %(f, self.dictionary_name, f)
-            system(cmd)
+            rename('%s' %(f), '%s.%s' %(self.dictionary_name, f))
 
     def _dictionary_data(self):
         """ Generate dictionaries, coded as a Directed Acyclic Word Graph (DAWG), 
@@ -105,19 +104,17 @@ class TesseractTrainer:
     def clean(self):
         """ Remove all files generated during tesseract training process """
         print('cleaning...')
-        cmd = 'rm '
-        cmd += '%s.tr ' %(self.prefix)
-        cmd += '%s.txt ' %(self.prefix)
-        cmd += '%s.box ' %(self.prefix)
-        cmd += '%s.inttemp ' %(self.dictionary_name) 
-        cmd += '%s.Microfeat ' %(self.dictionary_name)
-        cmd += '%s.normproto ' %(self.dictionary_name)
-        cmd += '%s.pffmtable ' %(self.dictionary_name)
-        cmd += '%s.unicharset ' %(self.dictionary_name)
+        remove('%s.tr' %(self.prefix))
+        remove('%s.txt' %(self.prefix))
+        remove('%s.box' %(self.prefix))
+        remove('%s.inttemp' %(self.dictionary_name))
+        remove('%s.Microfeat' %(self.dictionary_name))
+        remove('%s.normproto' %(self.dictionary_name))
+        remove('%s.pffmtable' %(self.dictionary_name))
+        remove('%s.unicharset' %(self.dictionary_name))
         if self.word_list:
-            cmd += '%s.freq-dawg ' %(self.dictionary_name)
-        cmd += 'mfunicharset '
-        system(cmd)
+            remove('%s.freq-dawg' %(self.dictionary_name))
+        remove('mfunicharset')
     
     def add_trained_data(self):
         """ Copy the newly trained data to the tessdata/ directory """
