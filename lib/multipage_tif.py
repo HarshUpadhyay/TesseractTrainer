@@ -10,9 +10,8 @@ import ImageFont
 import ImageDraw
 import glob
 import subprocess
+import os
 
-from os import system
- 
 
 class MultiPageTif(object):
     """ A class allowing generation of a multi-page tif """
@@ -128,8 +127,9 @@ class MultiPageTif(object):
     def _clean(self):
         """ Remove all generated individual tifs """
         print "Removing all individual tif images"
-        rmtif = 'rm %s*' %(self.indiv_page_prefix)
-        system(rmtif)
+        tifs = glob.glob('%s*' %(self.indiv_page_prefix))
+        for tif in tifs:
+            os.remove(tif)
 
 # Utility functions
 def word_fits_in_line(pagewidth, x_pos, wordsize_w):
