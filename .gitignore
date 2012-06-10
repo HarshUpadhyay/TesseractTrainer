@@ -19,3 +19,5 @@ dist
 *.pyo
 *.tmp*
 *~
+*.traineddata
+*.tif
