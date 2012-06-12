@@ -19,5 +19,20 @@ dist
 *.pyo
 *.tmp*
 *~
+*.bak
+
+# Project specific files #
+##########################
 *.traineddata
 *.tif
+*.box
+*.tr
+*.inttemp
+*.normproto
+*.pffmtable
+*.unicharset
+*.Microfeat
+*.otf
+*.ttf
+font_properties
+mfunicharset
