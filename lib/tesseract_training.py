@@ -35,8 +35,8 @@ class TesseractTrainer:
         """
         mp = MultiPageTif(self.training_text, 800, 600, 20, 20, self.font_name, self.font_path, 
             self.font_size, self.exp_number, self.dictionary_name)
-        mp.generate_tif()
-        mp.generate_boxfile()
+        mp.generate_tif() # generate a multi-page tif, filled with self.training_text
+        mp.generate_boxfile() # generate the boxfile, associated with the generated tif
     
     def _train_on_boxfile(self):
         """ Run tesseract on training mode, using the generated boxfiles """
@@ -120,5 +120,5 @@ class TesseractTrainer:
         """ Copy the newly trained data to the tessdata/ directory """
         traineddata = '%s.traineddata' %(self.dictionary_name)
         print('Copying %s to %s.' %(traineddata, self.tessdata_path))
-        shutil.copyfile(traineddata, join(self.tessdata_path, traineddata))
+        shutil.copyfile(traineddata, join(self.tessdata_path, traineddata)) # Copy traineddata file to the tessdata dir
         

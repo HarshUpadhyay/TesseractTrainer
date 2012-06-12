@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # Training process
     trainer = TesseractTrainer(args.training_text, args.experience_number, args.tesseract_lang, args.font_name, 
         args.font_size, args.font_path, args.font_properties, args.tessdata_path, args.word_list)
-    trainer.training()
-    trainer.clean()
-    trainer.add_trained_data()
+    trainer.training() # generate a multipage tif from args.training_text, train on it and generate a traineddata file
+    trainer.clean() # remove all files generated in the training process (except the traineddata file) 
+    trainer.add_trained_data() # copy the traineddata file to the tessdata/ directory
     
