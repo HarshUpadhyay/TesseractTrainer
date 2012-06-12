@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 API allowing the user to generate "black on white" multipage tif images 
 using a specified text, font and font-size, and to generate "box-files": 
@@ -21,7 +23,7 @@ class MultiPageTif(object):
         self.H = H
         self.start_x = start_x
         self.start_y = start_y
-        self.text = text.split(' ')
+        self.text = [word.decode('utf-8') for word in text.split(' ')]
         self.font = ImageFont.truetype(font_path, fontsize)
         self.font_name = font_name
         self.dictionary_name = dictionary_name
@@ -45,7 +47,7 @@ class MultiPageTif(object):
         print("Generating boxfile %s" %(boxfile_path))
         with open(boxfile_path, 'w') as boxfile:
             for boxline in self.boxlines:
-                boxfile.write(boxline + '\n')
+                boxfile.write(boxline.encode('utf-8') + '\n')
 
     def _new_tif(self, color="white"):
         """ Create and returns a new RGB blank tif """
