@@ -7,6 +7,7 @@ https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 import sys
 import shutil
 import os
+import subprocess
 
 from os.path import join
 
@@ -41,7 +42,7 @@ class TesseractTrainer:
     def _train_on_boxfile(self):
         """ Run tesseract on training mode, using the generated boxfiles """
         cmd = 'tesseract {prefix}.tif {prefix} nobatch box.train'.format(prefix = self.prefix)
-        os.system(cmd)
+        subprocess.call(cmd, shell=True)
 
     def _compute_character_set(self):
         """ Computes the character properties set: isalpha, isdigit, isupper, islower, ispunctuation
@@ -59,17 +60,17 @@ class TesseractTrainer:
              are thus represented by the binary number 00000 (0 in hexadecimal). 
         """
         cmd = 'unicharset_extractor %s.box' %(self.prefix)
-        os.system(cmd)
+        subprocess.call(cmd, shell=True)
 
     def _clustering(self):
         """ Cluster character features from all the training pages, and create characters prototype """
         cmd = 'mftraining -F font_properties -U unicharset %s.tr' %(self.prefix)
-        os.system(cmd)
+        subprocess.call(cmd, shell=True)
 
     def _normalize(self):
         """ Generate the 'normproto' data file (the character normalization sensitivity prototypes) """
         cmd = 'cntraining %s.tr' %(self.prefix)
-        os.system(cmd)
+        subprocess.call(cmd, shell=True)
 
     def _rename_files(self):
         """ Add the self.dictionary_name prefix to each file generated during the tesseract training process """
@@ -81,13 +82,13 @@ class TesseractTrainer:
         from the list of frequent words if those were submitted during the Trainer initialization. 
         """
         if self.word_list:
-            freq = 'wordlist2dawg %s %s.freq-dawg %s.unicharset' %(self.word_list, self.dictionary_name, 
+            cmd = 'wordlist2dawg %s %s.freq-dawg %s.unicharset' %(self.word_list, self.dictionary_name, 
                 self.dictionary_name)
-            os.system(freq)
+            subprocess.call(cmd, shell=True)
 
     def _combine_data(self):
         cmd = 'combine_tessdata %s.' %(self.dictionary_name)
-        os.system(cmd)
+        subprocess.call(cmd, shell=True)
 
     def training(self):
         """ Execute all training steps """
