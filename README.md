@@ -16,8 +16,8 @@ text and a font that you specify, thus **guaranteeing the total accuracy of the 
 
 * a Unix/Linux system
 * Tesseract3.x
-* python 2.6+ (python 3.x included)
-* PIL (Python Imaging Library)
+* python 2.6+
+* PIL (Python Imaging Library). Note that PIL has not yet been ported to Python3. 
 * the `libtiff-tools` package
 
 ## API
