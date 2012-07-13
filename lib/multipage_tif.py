@@ -16,6 +16,8 @@ import glob
 import subprocess
 import os
 
+TIFFCP = os.path.join(os.path.dirname(__file__), '..', 'bin', 'tiffcp')
+
 
 class MultiPageTif(object):
     """ A class allowing generation of a multi-page tif. """
@@ -143,7 +145,7 @@ class MultiPageTif(object):
         """ Generate a multipage tif from all the generated tifs.
         The multipage tif will be named {self.prefix}.tif
         """
-        tiffcp = ["tiffcp"]
+        tiffcp = ["%s" %(TIFFCP)]
         tifs = glob.glob(self.indiv_page_prefix + '*.tif') # all individual tifs
         tifs.sort()
         tiffcp.extend(tifs) # add all individual tifs as arguments
@@ -176,3 +178,5 @@ def pil_coord_to_tesseract(pil_x, pil_y, tif_h):
     in tesseract boxfile format, (0,0) is at the bottom left corner.
     """
     return pil_x, tif_h - pil_y
+
+
