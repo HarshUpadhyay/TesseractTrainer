@@ -38,7 +38,7 @@ The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_numbe
 
 ## Usage
 
-	usage: example.py [-h] 
+	usage: __main__.py [-h] 
 					  --tesseract-lang TESSERACT_LANG 
 					  --training-text TRAINING_TEXT 
 					  --font-path FONT_PATH 
@@ -51,8 +51,9 @@ The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_numbe
 
 **Tesseract training arguments**
 
-	arguments:
 	  -h, --help            show this help message and exit
+
+	**Required arguments:**
 	  --tesseract-lang TESSERACT_LANG, -l TESSERACT_LANG
 	                        Set the tesseract language traineddata to create.
 	  --training-text TRAINING_TEXT, -t TRAINING_TEXT
@@ -61,16 +62,44 @@ The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_numbe
 	                        The path of TrueType/OpenType file of the used training font.
 	  --font-name FONT_NAME, -n FONT_NAME
 	                        The name of the used training font. No spaces.
+
+	**Optional arguments**
 	  --experience_number EXPERIENCE_NUMBER, -e EXPERIENCE_NUMBER
 	                        The number of the training experience.
+	                        Default value: 0
 	  --font-properties FONT_PROPERTIES, -f FONT_PROPERTIES
 	                        The path of a file containing font properties for a list of training fonts.
+	                        Default value: ./font_properties
 	  --font-size FONT_SIZE, -s FONT_SIZE
 	                        The font size of the training font, in px.
+	                        Default value: 25
 	  --tessdata-path TESSDATA_PATH, -p TESSDATA_PATH
 	                        The path of the tessdata/ directory on your filesystem.
+	                        Default value: /usr/local/share/tessdata
 	  --word_list WORD_LIST, -w WORD_LIST
 	                        The path of a file containing a list of frequent words.
+	                        Default value: None
+
+## Example
+
+In this example, we would like to create a `helveticanarrow` dictionary:
+
+* using an OpenType file located at `./font/Helvetica-Narrow.otf
+* the font name is set to `helveticanarrow`
+* with training text located at `./text`
+* the `font_properties` file is located at `./font_properties`
+* the experience number is set to 0
+* a tif font size of 25px
+* the `tessdata` directory is located at `/usr/local/share/tessdata`
+* no frequent word list
+
+The command would thus be:
+
+	$ python example.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow
+
+or using the short options names:
+
+	$ python example.py -l helveticanarrow -r ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow
 
 ## Remarks
 
