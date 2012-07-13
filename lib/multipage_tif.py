@@ -21,16 +21,38 @@ class MultiPageTif(object):
     """ A class allowing generation of a multi-page tif. """
 
     def __init__(self, text, W, H, start_x, start_y, font_name, font_path, fontsize, exp_number, dictionary_name):
+
+        # Width of the generated tifs (in px)
         self.W = W
+
+        # Height of the generated tifs (in px)
         self.H = H
+
+        # X coordinate of the first letter of the page
         self.start_x = start_x
+
+        # Y coordinate of the first letter of the page
         self.start_y = start_y
+
+        # Text to be written in generated multipage tif
         self.text = [word.decode('utf-8') for word in text.split(' ')] # utf-8 characters support
+
+        # Font used when "writing" the text into the tif
         self.font = ImageFont.truetype(font_path, fontsize)
+
+        # Name of the font, used for generating the file prefix
         self.font_name = font_name
+
+        # Name of the tesseract dictionary to be generated. Used for generating the file prefix.
         self.dictionary_name = dictionary_name
+
+        # Prefix of the generated multi-page tif file
         self.prefix = ".".join([dictionary_name, font_name, "exp"+str(exp_number)])
+
+        # A list of boxfile lines, each one of the form "char x0 y x1 y1 page_number"
         self.boxlines = []
+
+        # prefix of all temporary single-page tif files
         self.indiv_page_prefix = 'page'
 
     def generate_tif(self):
