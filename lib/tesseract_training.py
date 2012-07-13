@@ -120,5 +120,8 @@ class TesseractTrainer:
         """ Copy the newly trained data to the tessdata/ directory """
         traineddata = '%s.traineddata' %(self.dictionary_name)
         print('Copying %s to %s.' %(traineddata, self.tessdata_path))
-        shutil.copyfile(traineddata, join(self.tessdata_path, traineddata)) # Copy traineddata file to the tessdata dir
+        try:
+            shutil.copyfile(traineddata, join(self.tessdata_path, traineddata)) # Copy traineddata file to the tessdata dir
+        except IOError:
+            print "IOError: Permission denied. Super-user rights are required to copy %s to %s." %(traineddata, self.tessdata_path)
         
