@@ -87,7 +87,7 @@ In this example, we would like to create a `helveticanarrow` dictionary:
 * using an OpenType file located at `./font/Helvetica-Narrow.otf
 * the font name is set to `helveticanarrow`
 * with training text located at `./text`
-* the `font_properties` file is located at `./font_properties`. It contains the following line: helveticanarrow 0 0 0 0 0
+* the `font_properties` file is located at `./font_properties`. It contains the following line: `helveticanarrow 0 0 0 0 0`
 * the experience number is set to 0
 * a tif font size of 25px
 * the `tessdata` directory is located at `/usr/local/share/tessdata`
