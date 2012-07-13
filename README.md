@@ -29,7 +29,7 @@ This class has only 4 public methods:
 * `add_trained_data(self)`: copies the generated `traineddata` file to your `tessdata` directory 
 * `clean(self)`: deletes all files generated during the training process (except for the `traineddata` one).
 
-I'd advise you to combine this `TesseractTrainer` class with the `argparse.ArgumentParser` (and associated security checks) I defined in `example.py`.
+I'd advise you to combine this `TesseractTrainer` class with the `argparse.ArgumentParser` (and associated security checks) I defined in `__main__.py`.
 
 ## Tif generation
 During the training process, a (multi-page) tif will be generated using the `lib/multipage_tif.py` module, 
@@ -87,7 +87,7 @@ In this example, we would like to create a `helveticanarrow` dictionary:
 * using an OpenType file located at `./font/Helvetica-Narrow.otf
 * the font name is set to `helveticanarrow`
 * with training text located at `./text`
-* the `font_properties` file is located at `./font_properties`
+* the `font_properties` file is located at `./font_properties`. It contains the following line: helveticanarrow 0 0 0 0 0
 * the experience number is set to 0
 * a tif font size of 25px
 * the `tessdata` directory is located at `/usr/local/share/tessdata`
@@ -95,11 +95,11 @@ In this example, we would like to create a `helveticanarrow` dictionary:
 
 The command would thus be:
 
-	$ python example.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow
+	$ python __main__.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow
 
 or using the short options names:
 
-	$ python example.py -l helveticanarrow -r ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow
+	$ python __main__.py -l helveticanarrow -t ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow
 
 ## Remarks
 
