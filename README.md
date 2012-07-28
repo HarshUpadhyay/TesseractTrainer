@@ -37,18 +37,19 @@ from the input `text`, `font_name`, `font_size` arguments.
 The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_number}.tif`.
 
 ## Usage
-
-	usage: __main__.py [-h] 
-					  --tesseract-lang TESSERACT_LANG 
-					  --training-text TRAINING_TEXT 
-					  --font-path FONT_PATH 
-					  --font-name FONT_NAME
-	                  [--experience_number EXPERIENCE_NUMBER]
-	                  [--font-properties FONT_PROPERTIES] 
-	                  [--font-size FONT_SIZE]
-	                  [--tessdata-path TESSDATA_PATH] 
-	                  [--word_list WORD_LIST]
-	                  [--verbose]
+```bash
+usage: python __main__.py [-h] 
+                  --tesseract-lang TESSERACT_LANG 
+                  --training-text TRAINING_TEXT 
+                  --font-path FONT_PATH 
+                  --font-name FONT_NAME
+                  [--experience_number EXPERIENCE_NUMBER]
+                  [--font-properties FONT_PROPERTIES] 
+                  [--font-size FONT_SIZE]
+                  [--tessdata-path TESSDATA_PATH] 
+                  [--word_list WORD_LIST]
+                  [--verbose]
+```
 
 **Tesseract training arguments**
 
@@ -100,33 +101,39 @@ In this example, we would like to create a `helveticanarrow` dictionary:
 
 The command would thus be:
 
-	$ python __main__.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow  --verbose
-
+```bash
+$ python __main__.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow  --verbose
+```
 or using the short options names:
 
-	$ python __main__.py -l helveticanarrow -t ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow -v 
+```bash
+$ python __main__.py -l helveticanarrow -t ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow -v 
+```
 
 ### Integration in a python script
 
-	from lib.tesseract_training import TesseractTrainer
+```python
+from lib.tesseract_training import TesseractTrainer
 
-	trainer = TesseractTrainer(dictionary_name='helveticanarrow', 
-								text='./text',
-								font_name='helveticanarrow',
-								font_path='./font/Helvetica-Narrow.otf')
-    trainer.training()  # generate a multipage tif from args.training_text, train on it and generate a traineddata file
-    trainer.clean()  # remove all files generated in the training process (except the traineddata file)
-    trainer.add_trained_data()  # copy the traineddata file to the tessdata/ directory
+trainer = TesseractTrainer(dictionary_name='helveticanarrow', 
+                            text='./text',
+                            font_name='helveticanarrow',
+                            font_path='./font/Helvetica-Narrow.otf')
+trainer.training()  # generate a multipage tif from args.training_text, train on it and generate a traineddata file
+trainer.clean()  # remove all files generated in the training process (except the traineddata file)
+trainer.add_trained_data()  # copy the traineddata file to the tessdata/ directory
+```
 
 Note that the same default values apply than when using the `__main__.py` file:
 
-* `font_size=25`
-* `exp_number=0`
-* `font_properties="./font_properties"`
-* `tessdata_path="/usr/local/share/tessdata"`
-* `word_list=None`
-* `verbose=True`
-
+```python
+font_size = 25
+exp_number = 0
+font_properties = "./font_properties"
+tessdata_path = "/usr/local/share/tessdata"
+word_list = None
+verbose = True
+```
 The default values are stored in `lib/defaults.py`.
 
 ## Remarks
