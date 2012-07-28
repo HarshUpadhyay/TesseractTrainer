@@ -56,7 +56,7 @@ if __name__ == '__main__':
         help="The path of the tessdata/ directory on your filesystem.")
     parser.add_argument('--word_list', '-w', type=str, action='store', default=df.WORD_LIST,
         help="The path of a file containing a list of frequent words.")
-    parser.add_argument('--verbose', '-v', action='store_true', default=df.VERBOSE,
+    parser.add_argument('--verbose', '-v', action='store_true',
         help="Use this argument if you want to display the training output.")
     args = parser.parse_args()
 

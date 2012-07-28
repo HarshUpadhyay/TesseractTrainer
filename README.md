@@ -79,6 +79,9 @@ The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_numbe
 	  --word_list WORD_LIST, -w WORD_LIST
 	                        The path of a file containing a list of frequent words.
 	                        Default value: None
+	  --verbose, -v         Use this argument if you want to display the training
+                            output.
+
 
 ## Examples
 ### Call of `__main__.py`
@@ -96,11 +99,11 @@ In this example, we would like to create a `helveticanarrow` dictionary:
 
 The command would thus be:
 
-	$ python __main__.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow
+	$ python __main__.py --tesseract-lang helveticanarrow --training-text ./text --font-path font/Helvetica-Narrow.otf --font-name helveticanarrow  --verbose
 
 or using the short options names:
 
-	$ python __main__.py -l helveticanarrow -t ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow
+	$ python __main__.py -l helveticanarrow -t ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow -v 
 
 ### Integration in a python script
 
@@ -121,6 +124,7 @@ Note that the same default values apply than when using the `__main__.py` file:
 * `font_properties="./font_properties"`
 * `tessdata_path="/usr/local/share/tessdata"`
 * `word_list=None`
+* `verbose=True`
 
 The default values are stored in `lib/defaults.py`.
 

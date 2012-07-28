@@ -28,7 +28,8 @@ class TesseractTrainer:
         exp_number=df.EXP_NUMBER,
         font_properties=df.FONT_PROPERTIES,
         tessdata_path=df.TESSDATA_PATH,
-        word_list=df.WORD_LIST):
+        word_list=df.WORD_LIST,
+        verbose=df.VERBOSE):
 
         # Training text: the text used for the multipage tif generation
         # we replace all \n by " " as we'll split the text over " "s
@@ -62,19 +63,23 @@ class TesseractTrainer:
         # Local path to a file containing frequently encountered words
         self.word_list = word_list
 
+        # Set verbose to True to display the training commands output
+        self.verbose = verbose
+
     def _generate_boxfile(self):
         """ Generate a multipage tif, filled with the training text and generate a boxfile
             from the coordinates of the characters inside it
         """
         mp = MultiPageTif(self.training_text, 800, 600, 20, 20, self.font_name, self.font_path,
-            self.font_size, self.exp_number, self.dictionary_name)
+            self.font_size, self.exp_number, self.dictionary_name, self.verbose)
         mp.generate_tif()  # generate a multi-page tif, filled with self.training_text
         mp.generate_boxfile()  # generate the boxfile, associated with the generated tif
 
     def _train_on_boxfile(self):
         """ Run tesseract on training mode, using the generated boxfiles """
         cmd = 'tesseract {prefix}.tif {prefix} nobatch box.train'.format(prefix=self.prefix)
-        subprocess.call(cmd, shell=True)
+        run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        display_output(run, self.verbose)
 
     def _compute_character_set(self):
         """ Computes the character properties set: isalpha, isdigit, isupper, islower, ispunctuation
@@ -92,17 +97,20 @@ class TesseractTrainer:
                  are thus represented by the binary number 00000 (0 in hexadecimal).
         """
         cmd = 'unicharset_extractor %s.box' % (self.prefix)
-        subprocess.call(cmd, shell=True)
+        run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        display_output(run, self.verbose)
 
     def _clustering(self):
         """ Cluster character features from all the training pages, and create characters prototype """
         cmd = 'mftraining -F font_properties -U unicharset %s.tr' % (self.prefix)
-        subprocess.call(cmd, shell=True)
+        run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        display_output(run, self.verbose)
 
     def _normalize(self):
         """ Generate the 'normproto' data file (the character normalization sensitivity prototypes) """
         cmd = 'cntraining %s.tr' % (self.prefix)
-        subprocess.call(cmd, shell=True)
+        run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        display_output(run, self.verbose)
 
     def _rename_files(self):
         """ Add the self.dictionary_name prefix to each file generated during the tesseract training process """
@@ -116,13 +124,15 @@ class TesseractTrainer:
         if self.word_list:
             cmd = 'wordlist2dawg %s %s.freq-dawg %s.unicharset' % (self.word_list, self.dictionary_name,
                 self.dictionary_name)
-            subprocess.call(cmd, shell=True)
+            run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            display_output(run, self.verbose)
 
     def _combine_data(self):
         cmd = 'combine_tessdata %s.' % (self.dictionary_name)
-        subprocess.call(cmd, shell=True)
+        run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        display_output(run, self.verbose)
 
-    def training(self):
+    def training(self=False):
         """ Execute all training steps """
         self._generate_boxfile()
         self._train_on_boxfile()
@@ -131,12 +141,13 @@ class TesseractTrainer:
         self._normalize()
         self._rename_files()
         self._dictionary_data()
-        self._combine_data()
-        print('The %s.traineddata file has been generated !' % (self.dictionary_name))
+        if self.verbose:
+            print('The %s.traineddata file has been generated !' % (self.dictionary_name))
 
-    def clean(self):
+    def clean(self=False):
         """ Remove all files generated during tesseract training process """
-        print('cleaning...')
+        if self.verbose:
+            print('cleaning...')
         os.remove('%s.tr' % (self.prefix))
         os.remove('%s.txt' % (self.prefix))
         os.remove('%s.box' % (self.prefix))
@@ -152,8 +163,21 @@ class TesseractTrainer:
     def add_trained_data(self):
         """ Copy the newly trained data to the tessdata/ directory """
         traineddata = '%s.traineddata' % (self.dictionary_name)
-        print('Copying %s to %s.' % (traineddata, self.tessdata_path))
+        if self.verbose:
+            print('Copying %s to %s.' % (traineddata, self.tessdata_path))
         try:
             shutil.copyfile(traineddata, join(self.tessdata_path, traineddata))  # Copy traineddata fie to the tessdata dir
         except IOError:
-            print("IOError: Permission denied. Super-user rights are required to copy %s to %s." % (traineddata, self.tessdata_path))
+            raise IOError("IOError: Permission denied. Super-user rights are required to copy %s to %s." % (traineddata, self.tessdata_path))
+
+
+def display_output(run, verbose):
+    """ Display the output/error of a subprocess.Popen object.
+        If an error is encountered, it's shown whatever the value of
+        'verbose' is.
+        If no error is encountered, the stdout of the command is
+        displayed only if 'verbose' is True.
+    """
+    if verbose:
+        out, err = run.communicate()
+        print out.strip(), err.strip()

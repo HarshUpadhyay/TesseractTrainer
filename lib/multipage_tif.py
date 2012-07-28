@@ -22,7 +22,7 @@ TIFFCP = os.path.join(os.path.dirname(__file__), '..', 'bin', 'tiffcp')
 class MultiPageTif(object):
     """ A class allowing generation of a multi-page tif. """
 
-    def __init__(self, text, W, H, start_x, start_y, font_name, font_path, fontsize, exp_number, dictionary_name):
+    def __init__(self, text, W, H, start_x, start_y, font_name, font_path, fontsize, exp_number, dictionary_name, verbose):
 
         # Width of the generated tifs (in px)
         self.W = W
@@ -57,6 +57,9 @@ class MultiPageTif(object):
         # prefix of all temporary single-page tif files
         self.indiv_page_prefix = 'page'
 
+        # Set verbose to True to display output
+        self.verbose = verbose
+
     def generate_tif(self):
         """ Create several individual tifs from text and merge them
             into a multi-page tif, and finally delete all individual tifs.
@@ -70,7 +73,8 @@ class MultiPageTif(object):
         The boxfile will be named {self.prefix}.box
         """
         boxfile_path = self.prefix + '.box'
-        print("Generating boxfile %s" % (boxfile_path))
+        if self.verbose:
+            print("Generating boxfile %s" % (boxfile_path))
         with open(boxfile_path, 'w') as boxfile:
             for boxline in self.boxlines:
                 boxfile.write(boxline.encode('utf-8') + '\n')  # utf-8 characters support
@@ -97,7 +101,8 @@ class MultiPageTif(object):
         page_nb = 0
         x_pos = self.start_x
         y_pos = self.start_y
-        print('Generating individual tif image %s' % (self.indiv_page_prefix + str(page_nb) + '.tif'))
+        if self.verbose:
+            print('Generating individual tif image %s' % (self.indiv_page_prefix + str(page_nb) + '.tif'))
         for word in self.text:
             word += ' '  # add a space between each word
             wordsize_w, wordsize_h = self.font.getsize(word)
@@ -115,7 +120,8 @@ class MultiPageTif(object):
                     y_pos = self.start_y
                     self._save_tif(tif, page_nb)  # save individual tif
                     page_nb += 1
-                    print('Generating individual tif image %s' % (self.indiv_page_prefix + str(page_nb) + '.tif'))
+                    if self.verbose:
+                        print('Generating individual tif image %s' % (self.indiv_page_prefix + str(page_nb) + '.tif'))
                     tif = self._new_tif()  # new page
                     draw = ImageDraw.Draw(tif)  # write on this new page
             # write word
@@ -151,12 +157,14 @@ class MultiPageTif(object):
         tiffcp.extend(tifs)  # add all individual tifs as arguments
         multitif_name = self.prefix + '.tif'
         tiffcp.append(multitif_name)  # name of the result multipage tif
-        print('Generating multipage-tif %s' % (multitif_name))
+        if self.verbose:
+            print('Generating multipage-tif %s' % (multitif_name))
         subprocess.call(tiffcp)  # merge of all individul tifs into a multipage one
 
     def _clean(self):
         """ Remove all generated individual tifs """
-        print("Removing all individual tif images")
+        if self.verbose:
+            print("Removing all individual tif images")
         tifs = glob.glob('%s*' % (self.indiv_page_prefix))  # all individual tifd
         for tif in tifs:
             os.remove(tif)
