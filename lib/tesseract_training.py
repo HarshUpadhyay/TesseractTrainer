@@ -168,7 +168,7 @@ class TesseractTrainer:
         try:
             shutil.copyfile(traineddata, join(self.tessdata_path, traineddata))  # Copy traineddata fie to the tessdata dir
         except IOError:
-            raise IOError("IOError: Permission denied. Super-user rights are required to copy %s to %s." % (traineddata, self.tessdata_path))
+            raise IOError("Permission denied. Super-user rights are required to copy %s to %s." % (traineddata, self.tessdata_path))
 
 
 def display_output(run, verbose):
