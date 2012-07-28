@@ -48,6 +48,7 @@ The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_numbe
 	                  [--font-size FONT_SIZE]
 	                  [--tessdata-path TESSDATA_PATH] 
 	                  [--word_list WORD_LIST]
+	                  [--verbose]
 
 **Tesseract training arguments**
 
