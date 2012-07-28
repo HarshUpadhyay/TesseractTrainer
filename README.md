@@ -80,7 +80,8 @@ The result will be a tif file named `{dictionary_name}.{font_name}.exp{exp_numbe
 	                        The path of a file containing a list of frequent words.
 	                        Default value: None
 
-## Example
+## Examples
+### Call of `__main__.py`
 
 In this example, we would like to create a `helveticanarrow` dictionary:
 
@@ -100,6 +101,28 @@ The command would thus be:
 or using the short options names:
 
 	$ python __main__.py -l helveticanarrow -t ./text -F ./font/Helvetica-Narrow.otf -n helveticanarrow
+
+### Integration in a python script
+
+	from lib.tesseract_training import TesseractTrainer
+
+	trainer = TesseractTrainer(dictionary_name='helveticanarrow', 
+								text='./text',
+								font_name='helveticanarrow',
+								font_path='./font/Helvetica-Narrow.otf')
+    trainer.training()  # generate a multipage tif from args.training_text, train on it and generate a traineddata file
+    trainer.clean()  # remove all files generated in the training process (except the traineddata file)
+    trainer.add_trained_data()  # copy the traineddata file to the tessdata/ directory
+
+Note that the same default values apply than when using the `__main__.py` file:
+
+* `font_size=25`
+* `exp_number=0`
+* `font_properties="./font_properties"`
+* `tessdata_path="/usr/local/share/tessdata"`
+* `word_list=None`
+
+The default values are stored in `lib/defaults.py`.
 
 ## Remarks
 
