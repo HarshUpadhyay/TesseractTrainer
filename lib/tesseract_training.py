@@ -172,11 +172,8 @@ class TesseractTrainer:
 
 
 def display_output(run, verbose):
-    """ Display the output/error of a subprocess.Popen object.
-        If an error is encountered, it's shown whatever the value of
-        'verbose' is.
-        If no error is encountered, the stdout of the command is
-        displayed only if 'verbose' is True.
+    """ Display the output/error of a subprocess.Popen object
+        if 'verbose' is True.
     """
     if verbose:
         out, err = run.communicate()
