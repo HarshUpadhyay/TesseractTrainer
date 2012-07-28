@@ -10,6 +10,7 @@ import subprocess
 
 from os.path import join
 
+import defaults as df
 from multipage_tif import MultiPageTif
 
 GENERATED_DURING_TRAINING = ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto']
@@ -19,15 +20,15 @@ class TesseractTrainer:
     """ Object handling the training process of tesseract """
 
     def __init__(self,
-        text,
-        exp_number,
         dictionary_name,
+        text,
         font_name,
-        font_size,
         font_path,
-        font_properties,
-        tessdata_path,
-        word_list):
+        font_size=df.FONT_SIZE,
+        exp_number=df.EXP_NUMBER,
+        font_properties=df.FONT_PROPERTIES,
+        tessdata_path=df.TESSDATA_PATH,
+        word_list=df.WORD_LIST):
 
         # Training text: the text used for the multipage tif generation
         # we replace all \n by " " as we'll split the text over " "s

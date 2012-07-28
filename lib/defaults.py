@@ -1,0 +1,5 @@
+FONT_SIZE = 25
+EXP_NUMBER = 0
+FONT_PROPERTIES = 0
+TESSDATA_PATH = '/usr/local/share/tessdata'
+WORD_LIST = None
