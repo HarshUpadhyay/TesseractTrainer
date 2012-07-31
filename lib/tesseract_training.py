@@ -132,7 +132,7 @@ class TesseractTrainer:
         run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         display_output(run, self.verbose)
 
-    def training(self=False):
+    def training(self):
         """ Execute all training steps """
         self._generate_boxfile()
         self._train_on_boxfile()
@@ -141,10 +141,11 @@ class TesseractTrainer:
         self._normalize()
         self._rename_files()
         self._dictionary_data()
+        self._combine_data()
         if self.verbose:
             print('The %s.traineddata file has been generated !' % (self.dictionary_name))
 
-    def clean(self=False):
+    def clean(self):
         """ Remove all files generated during tesseract training process """
         if self.verbose:
             print('cleaning...')
