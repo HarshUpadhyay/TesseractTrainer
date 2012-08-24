@@ -68,7 +68,7 @@ class MultiPageTif(object):
 
     def generate_boxfile(self):
         """ Generate a boxfile from the multipage tif.
-        The boxfile will be named {self.prefix}.box
+            The boxfile will be named {self.prefix}.box
         """
         boxfile_path = self.prefix + '.box'
         if self.verbose:
@@ -83,7 +83,7 @@ class MultiPageTif(object):
 
     def _save_tif(self, tif, page_number):
         """ Save the argument tif using 'page_number' argument in filename.
-        The filepath will be {self.indiv_page_prefix}{self.page_number}.tif
+            The filepath will be {self.indiv_page_prefix}{self.page_number}.tif
         """
         tif.save(self.indiv_page_prefix + str(page_number) + '.tif')
 
@@ -135,7 +135,7 @@ class MultiPageTif(object):
 
     def _write_boxline(self, char, char_x0, char_y0, char_x1, char_y1, page_nb):
         """ Generate a boxfile line given a character coordinates, and append it to the
-        self.boxlines list.
+            self.boxlines list.
         """
         # draw.rectangle([(char_x0, char_y0),(char_x1, char_y1)], outline="red")
         # top-left corner coordinates in tesseract particular frame
