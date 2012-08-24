@@ -4,6 +4,8 @@ of training Tesseract 3described in the Tesseract Wiki:
 https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 """
 
+__version__ = '0.0.2'
+
 import shutil
 import os
 import subprocess
