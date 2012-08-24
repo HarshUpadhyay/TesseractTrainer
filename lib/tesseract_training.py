@@ -178,6 +178,8 @@ def display_output(run, verbose):
     """ Display the output/error of a subprocess.Popen object
         if 'verbose' is True.
     """
+    out, err = run.communicate()
     if verbose:
-        out, err = run.communicate()
-        print out.strip(), err.strip()
+        print out.strip()
+        if err:
+            print err.strip()
