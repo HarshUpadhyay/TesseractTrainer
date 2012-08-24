@@ -136,6 +136,16 @@ verbose = True
 ```
 The default values are stored in `lib/defaults.py`.
 
+## Testing
+To test the application with the unit tests implemented in `test_tesseract_trainer.py`, either run
+```bash
+$ nosetests
+```
+or  
+```bash
+$ python test_tesseract_trainer.py
+```
+
 ## Remarks
 
 * UTF-8 encoding is supported.
