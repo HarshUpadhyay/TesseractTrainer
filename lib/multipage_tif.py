@@ -79,7 +79,7 @@ class MultiPageTif(object):
 
     def _new_tif(self, color="white"):
         """ Create and returns a new RGB blank tif, with specified background color (default: white) """
-        return Image.new("RGB", (self.W, self.H), color=color)
+        return Image.new("L", (self.W, self.H), color=color)
 
     def _save_tif(self, tif, page_number):
         """ Save the argument tif using 'page_number' argument in filename.
