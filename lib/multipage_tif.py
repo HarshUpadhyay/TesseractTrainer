@@ -16,8 +16,6 @@ import glob
 import subprocess
 import os
 
-TIFFCP = os.path.join(os.path.dirname(__file__), '..', 'bin', 'tiffcp')
-
 
 class MultiPageTif(object):
     """ A class allowing generation of a multi-page tif. """
@@ -149,9 +147,9 @@ class MultiPageTif(object):
 
     def _multipage_tif(self):
         """ Generate a multipage tif from all the generated tifs.
-        The multipage tif will be named {self.prefix}.tif
+            The multipage tif will be named {self.prefix}.tif
         """
-        tiffcp = ["%s" % (TIFFCP)]
+        tiffcp = ["%s" % (os.environ['TIFFCP'])]
         tifs = glob.glob(self.indiv_page_prefix + '*.tif')  # all individual tifs
         tifs.sort()
         tiffcp.extend(tifs)  # add all individual tifs as arguments
