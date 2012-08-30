@@ -17,7 +17,8 @@ text and a font that you specify, thus **guaranteeing the total accuracy of the 
 * a Unix/Linux system
 * Tesseract3.x
 * python 2.6+
-* PIL (Python Imaging Library). Note that PIL has not yet been ported to Python3. 
+* PIL (Python Imaging Library). Note that PIL has not yet been ported to Python3.
+* ImageMagick 
 
 ## API
 The `tesseract_training.py` file offers a very simple API, defined through the class `TesseractTrainer`.
