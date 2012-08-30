@@ -149,15 +149,15 @@ class MultiPageTif(object):
         """ Generate a multipage tif from all the generated tifs.
             The multipage tif will be named {self.prefix}.tif
         """
-        tiffcp = ["%s" % (os.environ['TIFFCP'])]
+        cmd = ['convert']  # ImageMagick command `convert` can merge individual tifs into a multipage tif file
         tifs = glob.glob(self.indiv_page_prefix + '*.tif')  # all individual tifs
         tifs.sort()
-        tiffcp.extend(tifs)  # add all individual tifs as arguments
+        cmd.extend(tifs)  # add all individual tifs as arguments
         multitif_name = self.prefix + '.tif'
-        tiffcp.append(multitif_name)  # name of the result multipage tif
+        cmd.append(multitif_name)  # name of the result multipage tif
         if self.verbose:
             print('Generating multipage-tif %s' % (multitif_name))
-        subprocess.call(tiffcp)  # merge of all individul tifs into a multipage one
+        subprocess.call(cmd)  # merge of all individul tifs into a multipage one
 
     def _clean(self):
         """ Remove all generated individual tifs """

@@ -18,7 +18,6 @@ text and a font that you specify, thus **guaranteeing the total accuracy of the 
 * Tesseract3.x
 * python 2.6+
 * PIL (Python Imaging Library). Note that PIL has not yet been ported to Python3. 
-* the `tiffcp` binary (included in the `bin/` directory)
 
 ## API
 The `tesseract_training.py` file offers a very simple API, defined through the class `TesseractTrainer`.
