@@ -4,9 +4,7 @@
     We used `tiffcp` to merge individual tif files into a multipage one.
     Sunil Sheoran pointed out that it could be replaced by ImageMagick's 
     `convert` command: 
-    ```bash
-    $ convert *.tif multipage.tif
-    ```
+    `$ convert *.tif multipage.tif`
 
 ## What changed from version 0.0.2 to 0.0.3?
 ### Improvements:
