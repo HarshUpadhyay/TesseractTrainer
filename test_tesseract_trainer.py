@@ -4,11 +4,13 @@ import unittest
 import os
 import glob
 
-import lib.defaults as df
 from lib.tesseract_training import TesseractTrainer
 
 
 class TesseractTrainerTest(unittest.TestCase):
+    """ A monolithic test suite ensuring that all training files are correctly created
+        duting the tesseract training process.
+    """
 
     GENERATED_DURING_TRAINING = ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto', 'mfunicharset']
 
@@ -19,11 +21,6 @@ class TesseractTrainerTest(unittest.TestCase):
                                         text='text',
                                         font_name='helveticanarrow',
                                         font_path='./font/Helvetica-Narrow.otf',
-                                        font_size=df.FONT_SIZE,
-                                        exp_number=df.EXP_NUMBER,
-                                        font_properties=df.FONT_PROPERTIES,
-                                        tessdata_path=df.TESSDATA_PATH,
-                                        word_list=df.WORD_LIST,
                                         verbose=False)
         self.prefix = '%s.%s.exp%d' % (self.trainer.dictionary_name, self.trainer.font_name, self.trainer.exp_number)
 
@@ -103,6 +100,62 @@ class TesseractTrainerTest(unittest.TestCase):
                 self.assertFileDoesNotExist(self.trainer.dictionary_name + '.' + filename)
             else:
                 self.assertFileDoesNotExist(filename)
+
+
+class TesseractTrainerFailuresTest(unittest.TestCase):
+    """ A test suite ensuring that invalid self.training parameters will cause the
+        program to raise an exception.
+    """
+
+    def test_font_path_exists(self):
+        """ Checks that an invalid font path as self.trainer.font_path argument
+            raises a SystemExit exception.
+        """
+        with self.assertRaises(SystemExit):
+            self.trainer = TesseractTrainer(dictionary_name='test',
+                                    text='text',
+                                    font_name='helveticanarrow',
+                                    font_path='invalid-font-path',
+                                    verbose=False)
+
+    def test_font_name_spaces(self):
+        """ Checks that an self.trainer.font_name argument containing spaces
+            raises a SystemExit exception.
+        """
+        with self.assertRaises(SystemExit):
+            self.trainer = TesseractTrainer(dictionary_name='test',
+                                    text='text',
+                                    font_name='helveti canarrow',
+                                    font_path='./font/Helvetica-Narrow.otf',
+                                    verbose=False)
+
+    def test_tessdata_path_exists(self):
+        """ Checks that an invalid path as self.trainer.tessdata_path argument
+            raises a SystemExit exception.
+        """
+        with self.assertRaises(SystemExit):
+            self.trainer = TesseractTrainer(dictionary_name='test',
+                                    text='text',
+                                    font_name='helveticanarrow',
+                                    font_path='./font/Helvetica-Narrow.otf',
+                                    tessdata_path='indvalid/tessdata_path',
+                                    verbose=False)
+
+    def test_font_name_matches_font_properties(self):
+        """ Checks that self.trainer.font_name matches a line of the
+            self.font_properties file.
+        """
+        font_properties_path = 'test-font-properties'
+        with open(font_properties_path, 'w') as fp:
+            fp.write('testfont 0 0 0 0 0\n')
+            with self.assertRaises(SystemExit):
+                self.trainer = TesseractTrainer(dictionary_name='test',
+                                        text='text',
+                                        font_name='helveticanarrow',
+                                        font_path='./font/Helvetica-Narrow.otf',
+                                        font_properties=font_properties_path,
+                                        verbose=False)
+        os.remove(font_properties_path)
 
 
 if __name__ == '__main__':

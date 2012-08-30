@@ -8,30 +8,6 @@ import lib.defaults as df
 from lib.tesseract_training import TesseractTrainer
 
 
-def perform_security_checks(args):
-    """ Perform several checks on the tesseract training arguments:
-        * the {tessdata_path} directorty must exist
-        * the {font_path} file must exist
-        * the font name must not contain any spaces
-        * the font defined by {font_name} must be described in the {font_properties} file
-    If any of those tests fail, the execution will stop.
-    """
-    if not exists(args.tessdata_path):
-        print("The %s directory does not exist. Aborting." % (args.tessdata_path))
-        sys.exit(1)
-
-    if not exists(args.font_path):
-        print("The %s file does not exist. Aborting." % (args.font_path))
-        sys.exit(1)
-
-    if " " in args.font_name:
-        print("The --font-name / -F argument must not contain any spaces. Aborting.")
-        sys.exit(1)
-
-    if args.font_name not in open(args.font_properties, 'r').read().split():
-        print("The font properties of %s have not been defined in %s. Aborting." % (args.font_name, args.font_properties))
-        sys.exit(1)
-
 if __name__ == '__main__':
 
     # Parse training arguments
@@ -59,8 +35,6 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', '-v', action='store_true',
         help="Use this argument if you want to display the training output.")
     args = parser.parse_args()
-
-    perform_security_checks(args)  # Check validity of args
 
     # Training process
     trainer = TesseractTrainer(dictionary_name=args.tesseract_lang,

@@ -11,7 +11,7 @@ import shutil
 import os
 import subprocess
 
-from os.path import join
+from os.path import join, exists
 
 import defaults as df
 from multipage_tif import MultiPageTif
@@ -45,11 +45,16 @@ class TesseractTrainer:
         self.dictionary_name = dictionary_name
 
         # The name of the font you're training tesseract on.
-        # WARNING: this name must match a font name in the font_properties file!
+        # WARNING: this name must match a font name in the font_properties file
+        # and must not contain spaces
         self.font_name = font_name
+        if ' ' in self.font_name:
+            raise SystemExit("The --font-name / -F argument must not contain any spaces. Aborting.")
 
         # The local path to the TrueType/OpentType file of the training font
         self.font_path = font_path
+        if not exists(self.font_path):
+            raise SystemExit("The %s file does not exist. Aborting." % (self.font_path))
 
         # The font size (in px) used during the multipage tif generation
         self.font_size = font_size
@@ -59,9 +64,14 @@ class TesseractTrainer:
 
         # Local path to the 'font_propperties' file
         self.font_properties = font_properties
+        with open(self.font_properties, 'r') as fp:
+            if self.font_name not in fp.read().split():
+                raise SystemExit("The font properties of %s have not been defined in %s. Aborting." % (self.font_name, self.font_properties))
 
         # Local path to the 'tessdata' directory
         self.tessdata_path = tessdata_path
+        if not exists(self.tessdata_path):
+            raise SystemExit("The %s directory does not exist. Aborting." % (self.tessdata_path))
 
         # Local path to a file containing frequently encountered words
         self.word_list = word_list
