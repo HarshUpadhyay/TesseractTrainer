@@ -1,5 +1,5 @@
 """
-A small training framework for Tesseract 3.x, taking over the tedious manual process
+A small training framework for Tesseract 3.0.1, taking over the tedious manual process
 of training Tesseract 3described in the Tesseract Wiki:
 https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 """
