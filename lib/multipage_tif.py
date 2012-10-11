@@ -129,6 +129,7 @@ class MultiPageTif(object):
                 char_x1, char_y1 = x_pos + char_w, y_pos + char_h  # character bottom-roght corner coordinates
                 draw.text((x_pos, y_pos), char, fill="black", font=self.font)  # write character in tif file
                 if char != ' ':
+                    # draw.rectangle([(char_x0, char_y0),(char_x1, char_y1)], outline="red")
                     self._write_boxline(char, char_x0, char_y0, char_x1, char_y1, page_nb)  # add coordinates to boxfile
                 x_pos += char_w
         self._save_tif(tif, page_nb)  # save last tif
@@ -137,7 +138,6 @@ class MultiPageTif(object):
         """ Generate a boxfile line given a character coordinates, and append it to the
             self.boxlines list.
         """
-        # draw.rectangle([(char_x0, char_y0),(char_x1, char_y1)], outline="red")
         # top-left corner coordinates in tesseract particular frame
         tess_char_x0, tess_char_y0 = pil_coord_to_tesseract(char_x0, char_y0, self.H)
         # bottom-right corner coordinates in tessseract particular frame
