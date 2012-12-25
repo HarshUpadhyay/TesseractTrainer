@@ -11,13 +11,20 @@ import shutil
 import os
 import subprocess
 
-from os.path import join, exists
+from os.path import join, exists, dirname
 
-import defaults as df
 from multipage_tif import MultiPageTif
 
 
+# list of files generated during the training procedure
 GENERATED_DURING_TRAINING = ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto']
+
+FONT_SIZE = 25  # Default font size, used during tif generation
+EXP_NUMBER = 0  # Default experience number, used in generated files name
+FONT_PROPERTIES = join(dirname(__file__), 'font_properties')  # Default path to the 'font_properties' file
+TESSDATA_PATH = '/usr/local/share/tessdata'  # Default path to the 'tessdata' directory
+WORD_LIST = None  # Default path to the "word_list" file, contaning frequent words
+VERBOSE = True  # verbosity enabled by default. Set to False to remove all text outputs
 
 
 class TesseractTrainer:
@@ -28,12 +35,12 @@ class TesseractTrainer:
         text,
         font_name,
         font_path,
-        font_size=df.FONT_SIZE,
-        exp_number=df.EXP_NUMBER,
-        font_properties=df.FONT_PROPERTIES,
-        tessdata_path=df.TESSDATA_PATH,
-        word_list=df.WORD_LIST,
-        verbose=df.VERBOSE):
+        font_size=FONT_SIZE,
+        exp_number=EXP_NUMBER,
+        font_properties=FONT_PROPERTIES,
+        tessdata_path=TESSDATA_PATH,
+        word_list=WORD_LIST,
+        verbose=VERBOSE):
 
         # Training text: the text used for the multipage tif generation
         # we replace all \n by " " as we'll split the text over " "s
@@ -212,15 +219,15 @@ if __name__ == '__main__':
     parser.add_argument('--font-name', '-n', type=str, action='store', required=True,
         help="The name of the used training font. No spaces.")
     # Optional arguments
-    parser.add_argument('--experience_number', '-e', type=int, action='store', default=df.EXP_NUMBER,
+    parser.add_argument('--experience_number', '-e', type=int, action='store', default=EXP_NUMBER,
         help="The number of the training experience.")
-    parser.add_argument('--font-properties', '-f', type=str, action='store', default=df.FONT_PROPERTIES,
+    parser.add_argument('--font-properties', '-f', type=str, action='store', default=FONT_PROPERTIES,
         help="The path of a file containing font properties for a list of training fonts.")
-    parser.add_argument('--font-size', '-s', type=int, action='store', default=df.FONT_SIZE,
+    parser.add_argument('--font-size', '-s', type=int, action='store', default=FONT_SIZE,
         help="The font size of the training font, in px.")
-    parser.add_argument('--tessdata-path', '-p', type=str, action='store', default=df.TESSDATA_PATH,
+    parser.add_argument('--tessdata-path', '-p', type=str, action='store', default=TESSDATA_PATH,
         help="The path of the tessdata/ directory on your filesystem.")
-    parser.add_argument('--word_list', '-w', type=str, action='store', default=df.WORD_LIST,
+    parser.add_argument('--word_list', '-w', type=str, action='store', default=WORD_LIST,
         help="The path of a file containing a list of frequent words.")
     parser.add_argument('--verbose', '-v', action='store_true',
         help="Use this argument if you want to display the training output.")
