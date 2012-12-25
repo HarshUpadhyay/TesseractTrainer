@@ -1,8 +1,7 @@
 import re
 import os
+from setuptools import setup
 
-from distutils.core import setup
- 
 VERSION = re.search("__version__ = '([^']+)'", open(
     os.path.join(os.path.dirname(__file__), 'tesseract_trainer', '__init__.py')
 ).read().strip()).group(1)
@@ -16,7 +15,7 @@ setup(
     author_email='rouberol.b@gmail.com',
     url='https://github.com/BaltoRouberol/TesseractTrainer',
     packages=['tesseract_trainer'],
-    requires=['PIL (>=1.1.7)'],
+    install_requires=['PIL>=1.1.7'],
     keywords=['tesseract', 'OCR', 'optical character recogniton', 'training'],
     scripts=['tesseract_trainer/tesstrain'],
     classifiers=[
