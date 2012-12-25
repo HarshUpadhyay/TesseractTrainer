@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+import argparse
+
+from tesseract_trainer import EXP_NUMBER, FONT_SIZE, TESSDATA_PATH,\
+    WORD_LIST, TesseractTrainer
+
+
+# Parse training arguments
+parser = argparse.ArgumentParser(description='Tesseract training arguments.')
+# Required arguments
+parser.add_argument('--tesseract-lang', '-l', type=str, action='store', required=True,
+    help="Set the tesseract language traineddata to create.")
+parser.add_argument('--training-text', '-t', type=str, action='store', required=True,
+    help="The path of the training text.")
+parser.add_argument('--font-path', '-F', type=str, action='store', required=True,
+    help="The path of TrueType/OpenType file of the used training font.")
+parser.add_argument('--font-name', '-n', type=str, action='store', required=True,
+    help="The name of the used training font. No spaces.")
+parser.add_argument('--font-properties', '-f', type=str, action='store', required=True,
+    help="The path of a file containing font properties for a list of training fonts.")
+# Optional arguments
+parser.add_argument('--experience_number', '-e', type=int, action='store', default=EXP_NUMBER,
+    help="The number of the training experience.")
+parser.add_argument('--font-size', '-s', type=int, action='store', default=FONT_SIZE,
+    help="The font size of the training font, in px.")
+parser.add_argument('--tessdata-path', '-p', type=str, action='store', default=TESSDATA_PATH,
+    help="The path of the tessdata/ directory on your filesystem.")
+parser.add_argument('--word_list', '-w', type=str, action='store', default=WORD_LIST,
+    help="The path of a file containing a list of frequent words.")
+parser.add_argument('--verbose', '-v', action='store_true',
+    help="Use this argument if you want to display the training output.")
+args = parser.parse_args()
+
+# Training process
+trainer = TesseractTrainer(dictionary_name=args.tesseract_lang,
+                            text=args.training_text,
+                            font_name=args.font_name,
+                            font_path=args.font_path,
+                            font_size=args.font_size,
+                            exp_number=args.experience_number,
+                            font_properties=args.font_properties,
+                            tessdata_path=args.tessdata_path,
+                            word_list=args.word_list,
+                            verbose=args.verbose)
+trainer.training()  # generate a multipage tif from args.training_text, train on it and generate a traineddata file
+trainer.clean()  # remove all files generated in the training process (except the traineddata file)
+trainer.add_trained_data()  # copy the traineddata file to the tessdata/ directory
