@@ -4,7 +4,7 @@ import unittest
 import os
 import glob
 
-from lib.tesseract_training import TesseractTrainer
+from trainer import TesseractTrainer
 
 
 class TesseractTrainerTest(unittest.TestCase):
