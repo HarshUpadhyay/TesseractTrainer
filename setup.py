@@ -1,10 +1,15 @@
-import tesseract_trainer
+import re
+import os
 
 from distutils.core import setup
+ 
+VERSION = re.search("__version__ = '([^']+)'", open(
+    os.path.join(os.path.dirname(__file__), 'tesseract_trainer', '__init__.py')
+).read().strip()).group(1)
 
 setup(
     name="TesseractTrainer",
-    version=tesseract_trainer.__version__,
+    version=VERSION,
     license=open('LICENSE.txt').read(),
     description='A small framework taking over the manual tesseract training process described in the Tesseract Wiki',
     author="Balthazar Rouberol",
