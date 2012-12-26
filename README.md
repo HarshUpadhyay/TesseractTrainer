@@ -151,6 +151,7 @@ You can override these constants when instanciating a `TesseractTrainer` object,
 ## Remarks
 
 * UTF-8 encoding is supported.
+* For now, training on "right to left" languages (ie: Arabic, for example) is not supported.
 * If your `tessdata` directory is not writable without superuser rights, use the `sudo` command when executing your python script.
 * Do not forget to describe your font properties in a file, following [these instructions](https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3#font_properties_%28new_in_3.01%29).
 
