@@ -17,7 +17,7 @@ TesseractTrainer intends to provide both a python API and a bash command line to
 ## Dependencies
 
 * a Unix/Linux system
-* Tesseract3.x
+* Tesseract3.01 (Tesseract 3.02 compatibility is on the way)
 * python 2.6 - 2.7
 * PIL (Python Imaging Library). Note that PIL has not yet been ported to Python 3.
 * ImageMagick
@@ -149,7 +149,7 @@ verbose = True
 You can override these constants when instanciating a `TesseractTrainer` object, to better suit your needs.
 
 ## Remarks
-
+* For now, only Tesseract 3.01 training can be automated. Adding Tesseract 3.02 support seems fairly simple, but I'm facing a tricky bug from tesseract. I'm hoping investigation with the tesseract dev team will resolve it (see [here](https://code.google.com/p/tesseract-ocr/issues/detail?can=2&start=0&num=100&q=&colspec=ID%20Type%20Status%20Priority%20Milestone%20Owner%20Summary&groupby=&sort=&id=698).  
 * UTF-8 encoding is supported.
 * For now, training on "right to left" languages (ie: Arabic, for example) is not supported.
 * If your `tessdata` directory is not writable without superuser rights, use the `sudo` command when executing your python script.
