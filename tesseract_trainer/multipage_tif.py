@@ -150,8 +150,7 @@ class MultiPageTif(object):
             The multipage tif will be named {self.prefix}.tif
         """
         cmd = ['convert']  # ImageMagick command `convert` can merge individual tifs into a multipage tif file
-        tifs = glob.glob(self.indiv_page_prefix + '*.tif')  # all individual tifs
-        tifs.sort()
+        tifs = sorted(glob.glob(self.indiv_page_prefix + '*.tif'), key=os.path.getmtime)
         cmd.extend(tifs)  # add all individual tifs as arguments
         multitif_name = self.prefix + '.tif'
         cmd.append(multitif_name)  # name of the result multipage tif
