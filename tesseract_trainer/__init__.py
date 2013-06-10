@@ -13,7 +13,7 @@ import subprocess
 
 from os.path import join, exists
 
-from multipage_tif import MultiPageTif
+from .multipage_tif import MultiPageTif
 
 
 # list of files generated during the training procedure

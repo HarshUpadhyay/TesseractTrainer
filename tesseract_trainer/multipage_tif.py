@@ -15,6 +15,8 @@ import ImageDraw
 import glob
 import subprocess
 import os
+import sys
+
 
 
 class MultiPageTif(object):
@@ -35,7 +37,11 @@ class MultiPageTif(object):
         self.start_y = start_y
 
         # Text to be written in generated multipage tif
-        self.text = [word.decode('utf-8') for word in text.split(' ')]  # utf-8 characters support
+        if sys.version_info.major == 3:
+            self.text = [word for word in text.split(' ')]
+        else:
+            # utf-8 characters support in python 2
+            self.text = [word.decode('utf-8') for word in text.split(' ')]
 
         # Font used when "writing" the text into the tif
         self.font = ImageFont.truetype(font_path, fontsize)
@@ -75,7 +81,10 @@ class MultiPageTif(object):
             print("Generating boxfile %s" % (boxfile_path))
         with open(boxfile_path, 'w') as boxfile:
             for boxline in self.boxlines:
-                boxfile.write(boxline.encode('utf-8') + '\n')  # utf-8 characters support
+                if sys.version_info.major == 3:
+                    boxfile.write(boxline + '\n')
+                else:
+                    boxfile.write(boxline.encode('utf-8') + '\n')  # utf-8 characters support
 
     def _new_tif(self, color="white"):
         """ Create and returns a new RGB blank tif, with specified background color (default: white) """
