@@ -1,15 +1,18 @@
 import re
-import os
 from setuptools import setup
 
+from os.path import dirname, join, relpath
+
+
 VERSION = re.search("__version__ = '([^']+)'", open(
-    os.path.join(os.path.dirname(__file__), 'tesseract_trainer', '__init__.py')
+    relpath(join(dirname(__file__), 'tesseract_trainer', '__init__.py'))
 ).read().strip()).group(1)
+
 
 setup(
     name="TesseractTrainer",
     version=VERSION,
-    license=open('LICENSE.txt').read(),
+    license=open(relpath(join(dirname(__file__), 'LICENSE.txt'))).read(),
     description='A small framework taking over the manual tesseract training process described in the Tesseract Wiki',
     author="Balthazar Rouberol",
     author_email='rouberol.b@gmail.com',
@@ -32,5 +35,6 @@ setup(
            'Topic :: Scientific/Engineering :: Artificial Intelligence',
            'Topic :: Scientific/Engineering :: Image Recognition',
         ],
-    long_description=open('README.txt').read(),  # Long description: content of README.txt (DRY),
+    long_description=open(relpath(join(dirname(__file__), 'README.txt'))).read(),
+    # Long description: content of README.txt (DRY),
 )
