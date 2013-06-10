@@ -198,6 +198,6 @@ def display_output(run, verbose):
     """
     out, err = run.communicate()
     if verbose:
-        print out.strip()
+        print(out.strip())
         if err:
-            print err.strip()
+            print(err.strip())
