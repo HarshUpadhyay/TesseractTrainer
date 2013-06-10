@@ -9,9 +9,18 @@ and page number.
 UTF-8 encoded characters are supported.
 """
 
-import Image
-import ImageFont
-import ImageDraw
+import sys
+
+if sys.version_info >= (3,):
+    # Install Pillow which supports python 3.x
+    from PIL import Image
+    from PIL import ImageFont
+    from PIL import ImageDraw
+else:
+    import Image
+    import ImageFont
+    import ImageDraw
+
 import glob
 import subprocess
 import os
