@@ -18,7 +18,7 @@ setup(
     author_email='rouberol.b@gmail.com',
     url='https://github.com/BaltoRouberol/TesseractTrainer',
     packages=['tesseract_trainer'],
-    install_requires=['PIL>=1.1.7'],
+    install_requires=['Pillow>=2.0.0'],
     keywords=['tesseract', 'OCR', 'optical character recogniton', 'training'],
     scripts=['tesseract_trainer/tesstrain'],
     classifiers=[
@@ -32,6 +32,8 @@ setup(
            'Operating System :: MacOS :: MacOS X',
            'Programming Language :: Python :: 2.6',
            'Programming Language :: Python :: 2.7',
+           'Programming Language :: Python :: 3.2',
+           'Programming Language :: Python :: 3.3',
            'Topic :: Scientific/Engineering :: Artificial Intelligence',
            'Topic :: Scientific/Engineering :: Image Recognition',
         ],
