@@ -13,7 +13,7 @@ import subprocess
 
 from os.path import join, exists
 
-from multipage_tif import MultiPageTif
+from .multipage_tif import MultiPageTif
 
 
 # list of files generated during the training procedure
@@ -198,6 +198,6 @@ def display_output(run, verbose):
     """
     out, err = run.communicate()
     if verbose:
-        print out.strip()
+        print(out.strip())
         if err:
-            print err.strip()
+            print(err.strip())

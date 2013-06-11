@@ -37,5 +37,4 @@ font_properties
 mfunicharset
 
 # PyPI
-MANIFEST*
 dist/
