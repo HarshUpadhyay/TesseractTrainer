@@ -4,7 +4,7 @@ of training Tesseract 3described in the Tesseract Wiki:
 https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3
 """
 
-__version__ = '0.1'
+__version__ = '0.1.1'
 __author__ = 'Balthazar Rouberol, rouberol.b@gmail.com'
 
 import shutil
@@ -13,11 +13,12 @@ import subprocess
 
 from os.path import join, exists
 
-from .multipage_tif import MultiPageTif
+from multipage_tif import MultiPageTif
 
 
 # list of files generated during the training procedure
-GENERATED_DURING_TRAINING = ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto']
+#GENERATED_DURING_TRAINING = ['unicharset', 'pffmtable', 'Microfeat', 'inttemp', 'normproto']
+GENERATED_DURING_TRAINING = ['unicharset', 'pffmtable', 'inttemp', 'normproto','shapetable'] #removed Microfeat, since it is not used, added shapetable
 
 FONT_SIZE = 25  # Default font size, used during tif generation
 EXP_NUMBER = 0  # Default experience number, used in generated files name
@@ -90,7 +91,7 @@ class TesseractTrainer:
         """ Generate a multipage tif, filled with the training text and generate a boxfile
             from the coordinates of the characters inside it
         """
-        mp = MultiPageTif(self.training_text, 800, 600, 20, 20, self.font_name, self.font_path,
+        mp = MultiPageTif(self.training_text, 3600, 3600, 50,50, self.font_name, self.font_path,
             self.font_size, self.exp_number, self.dictionary_name, self.verbose)
         mp.generate_tif()  # generate a multi-page tif, filled with self.training_text
         mp.generate_boxfile()  # generate the boxfile, associated with the generated tif
@@ -98,6 +99,7 @@ class TesseractTrainer:
     def _train_on_boxfile(self):
         """ Run tesseract on training mode, using the generated boxfiles """
         cmd = 'tesseract {prefix}.tif {prefix} nobatch box.train'.format(prefix=self.prefix)
+        print(cmd)
         run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         display_output(run, self.verbose)
 
@@ -123,6 +125,7 @@ class TesseractTrainer:
     def _clustering(self):
         """ Cluster character features from all the training pages, and create characters prototype """
         cmd = 'mftraining -F font_properties -U unicharset %s.tr' % (self.prefix)
+        print(cmd)
         run = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         display_output(run, self.verbose)
 
@@ -135,6 +138,7 @@ class TesseractTrainer:
     def _rename_files(self):
         """ Add the self.dictionary_name prefix to each file generated during the tesseract training process """
         for generated_file in GENERATED_DURING_TRAINING:
+            print(generated_file)
             os.rename('%s' % (generated_file), '%s.%s' % (self.dictionary_name, generated_file))
 
     def _dictionary_data(self):
@@ -198,6 +202,6 @@ def display_output(run, verbose):
     """
     out, err = run.communicate()
     if verbose:
-        print(out.strip())
+        print out.strip()
         if err:
-            print(err.strip())
+            print err.strip()
