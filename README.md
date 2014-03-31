@@ -1,5 +1,11 @@
 # TesseractTrainer
-by Balthazar Rouberol - [Mor Consulting](http://morconsulting.com/), [rouberol.b@gmail.com](mailto:rouberol.b@gmail.com)
+
+## WARNING: This project is unmaintained!
+Author's note: It grew more and more time consuming to maintain this project while Tesseract API evolved and broke things along the way.
+I do not work anymore with OCR, and have not been doing so for quite some time, which did not help to motivate me porting this project.
+If anyone wants to claim ownership and admin rights on this repo, send me an email at brouberol@imap.cc.
+
+## Description
 
 TesseractTrainer is a simple Python API, taking over the tedious process of manually
 training Tesseract3, as described in the [wiki page](https://code.google.com/p/tesseract-ocr/wiki/TrainingTesseract3).
@@ -17,7 +23,7 @@ TesseractTrainer intends to provide both a python API and a bash command line to
 ## Dependencies
 
 * a Unix/Linux system
-* Tesseract3.01 (Tesseract 3.02 compatibility is on the way)
+* Tesseract3.01
 * python 2.6 - 2.7
 * PIL (Python Imaging Library). Note that PIL has not yet been ported to Python 3.
 * ImageMagick
@@ -149,7 +155,7 @@ verbose = True
 You can override these constants when instanciating a `TesseractTrainer` object, to better suit your needs.
 
 ## Remarks
-* For now, only Tesseract 3.01 training can be automated. Adding Tesseract 3.02 support seems fairly simple, but I'm facing a tricky bug from tesseract. I'm hoping investigation with the tesseract dev team will resolve it (see [here](https://code.google.com/p/tesseract-ocr/issues/detail?can=2&start=0&num=100&q=&colspec=ID%20Type%20Status%20Priority%20Milestone%20Owner%20Summary&groupby=&sort=&id=698).  
+* For now, only Tesseract 3.01 training can be automated. Adding Tesseract 3.02 support seems fairly simple, but I'm facing a tricky bug from tesseract. I'm hoping investigation with the tesseract dev team will resolve it (see [here](https://code.google.com/p/tesseract-ocr/issues/detail?can=2&start=0&num=100&q=&colspec=ID%20Type%20Status%20Priority%20Milestone%20Owner%20Summary&groupby=&sort=&id=698).
 * UTF-8 encoding is supported.
 * For now, training on "right to left" languages (ie: Arabic, for example) is not supported.
 * If your `tessdata` directory is not writable without superuser rights, use the `sudo` command when executing your python script.
