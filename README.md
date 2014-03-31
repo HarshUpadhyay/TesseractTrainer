@@ -25,7 +25,16 @@ TesseractTrainer intends to provide both a python API and a bash command line to
 * a Unix/Linux system
 * Tesseract3.01
 * python 2.6 - 2.7
-* PIL (Python Imaging Library). Note that PIL has not yet been ported to Python 3.
+* Tesseract3.01 (Tesseract 3.02 compatibility is on the way)
+* python 2.6 - 2.7, 3.2 - 3.3
+* Pillow (Python Imaging Library fork)
+  Following libraries should be already installed before Pillow installation
+    * libjpeg62
+    * libjpeg-dev
+    * libfreetype6
+    * libfreetype6-dev
+    * zlib1g-dev
+  otherwise, some freetype/zlib/jpeg operations will not be supported.
 * ImageMagick
 
 ## Installation

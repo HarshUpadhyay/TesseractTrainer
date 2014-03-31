@@ -9,13 +9,15 @@ and page number.
 UTF-8 encoded characters are supported.
 """
 
-import Image
-import ImageFont
-import ImageDraw
+import sys
+
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
+
 import glob
 import subprocess
 import os
-import sys
 
 
 
