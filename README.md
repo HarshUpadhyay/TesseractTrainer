@@ -4,6 +4,9 @@
 Author's note: It grew more and more time consuming to maintain this project while Tesseract API evolved and broke things along the way.
 I do not work anymore with OCR, and have not been doing so for quite some time, which did not help to motivate me porting this project.
 If anyone wants to claim ownership and admin rights on this repo, send me an email at brouberol@imap.cc.
+# UPDATE[07/08/2016]
+ I have taken ownership of this API now. I am not a super frequent updater so I request you folks to bear with me while I try and get the API to be fully functional with the latest version of Tesseract(3.03+)
+ Future plans include getting this API to work on Windows as well.
 
 ## Description
 
