@@ -7,7 +7,7 @@ If anyone wants to claim ownership and admin rights on this repo, send me an ema
 #### UPDATE[07/08/2016]
  I have taken ownership of this API now. I am not a super frequent updater so I request you folks to bear with me while I try and get the API to be fully functional with the latest version of Tesseract(3.03+).</br>
  Future plans include getting this API to work on Windows as well.
- Feel free to reach out to me at Harsh.Upadhyay@rice.edu
+ Feel free to reach out to me at upadhyay.harsh1988@gmail.com
 
 ## Description
 
