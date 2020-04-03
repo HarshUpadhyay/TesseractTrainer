@@ -9,15 +9,20 @@ and page number.
 UTF-8 encoded characters are supported.
 """
 
-import sys
-
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
-
 import glob
 import subprocess
 import os
+
+Offset_x0 = {'0':-4}
+
+Offset_x1 = {'0':+4}
+
+Offset_y0 = {'0':-4}
+
+Offset_y1 = {'0':4}
 
 
 
@@ -39,11 +44,7 @@ class MultiPageTif(object):
         self.start_y = start_y
 
         # Text to be written in generated multipage tif
-        if sys.version_info.major == 3:
-            self.text = [word for word in text.split(' ')]
-        else:
-            # utf-8 characters support in python 2
-            self.text = [word.decode('utf-8') for word in text.split(' ')]
+        self.text = [word.decode('utf-8') for word in text.split(' ')]  # utf-8 characters support
 
         # Font used when "writing" the text into the tif
         self.font = ImageFont.truetype(font_path, fontsize)
@@ -83,10 +84,7 @@ class MultiPageTif(object):
             print("Generating boxfile %s" % (boxfile_path))
         with open(boxfile_path, 'w') as boxfile:
             for boxline in self.boxlines:
-                if sys.version_info.major == 3:
-                    boxfile.write(boxline + '\n')
-                else:
-                    boxfile.write(boxline.encode('utf-8') + '\n')  # utf-8 characters support
+                boxfile.write(boxline.encode('utf-8') + '\n')  # utf-8 characters support
 
     def _new_tif(self, color="white"):
         """ Create and returns a new RGB blank tif, with specified background color (default: white) """
@@ -96,7 +94,8 @@ class MultiPageTif(object):
         """ Save the argument tif using 'page_number' argument in filename.
             The filepath will be {self.indiv_page_prefix}{self.page_number}.tif
         """
-        tif.save(self.indiv_page_prefix + str(page_number) + '.tif')
+        #tif = tif.rotate(-1,expand=True)
+        tif.save(self.indiv_page_prefix + str(page_number) + '.tif',dpi=(300,300))
 
     def _fill_pages(self):
         """ Fill individual tifs with text, and save them to disk.
@@ -115,6 +114,7 @@ class MultiPageTif(object):
         for word in self.text:
             word += ' '  # add a space between each word
             wordsize_w, wordsize_h = self.font.getsize(word)
+            #print("".join(["Word Size: ", str(wordsize_h)]))
             # Check if word can fit the line, if not, newline
             # if newline, check if the newline fits the page
             # if not, save the current page and create a new one
@@ -122,7 +122,7 @@ class MultiPageTif(object):
                 if newline_fits_in_page(self.H, y_pos, wordsize_h):
                     # newline
                     x_pos = self.start_x
-                    y_pos += wordsize_h
+                    y_pos += wordsize_h + 40
                 else:
                     # newline AND newpage
                     x_pos = self.start_x
@@ -136,13 +136,38 @@ class MultiPageTif(object):
             # write word
             for char in word:
                 char_w, char_h = self.font.getsize(char)  # get character height / width
-                char_x0, char_y0 = x_pos, y_pos  # character top-left corner coordinates
-                char_x1, char_y1 = x_pos + char_w, y_pos + char_h  # character bottom-roght corner coordinates
+                char_h = char_h + 1 #there seems to be a 1 pixel bias
+                offset= self.font.getoffset(char) #this accounts for the font baseline relation
+                #Custom offsets
+                offset_x0 = 0
+                offset_x1 = 0
+                offset_y0 = 0
+                offset_y1 = 0
+                try:
+                    offset_x0 = Offset_x0[char]
+                except:
+                    blah = 1 #do nothing
+                try:
+                    offset_y0 = Offset_y0[char]
+                except:
+                    blah = 1 #do nothing
+                try:
+                    offset_x1 = Offset_x1[char]
+                except:
+                    blah = 1 #do nothing
+                try:
+                    offset_y1 = Offset_y1[char]
+                except:
+                    blah = 1 #do nothing
+                    
+                char_x0, char_y0 = x_pos+offset[0]+offset_x0, y_pos+offset[1] + offset_y0 -1  # character top-left corner coordinates, adjusted for font baseline location, and custom offsets needed for bad sizing
+                char_x1, char_y1 = x_pos + char_w+offset[0] + offset_x1, y_pos + char_h + offset[1] + offset_y1 -1  # character bottom-roght corner coordinates
                 draw.text((x_pos, y_pos), char, fill="black", font=self.font)  # write character in tif file
                 if char != ' ':
-                    # draw.rectangle([(char_x0, char_y0),(char_x1, char_y1)], outline="red")
-                    self._write_boxline(char, char_x0, char_y0, char_x1, char_y1, page_nb)  # add coordinates to boxfile
-                x_pos += char_w
+                    #draw.rectangle([(char_x0, char_y0),(char_x1, char_y1)], outline="red")
+                    theoffset = 0
+                    self._write_boxline(char, char_x0-theoffset, char_y1-theoffset, char_x1+theoffset, char_y0+theoffset, page_nb)  # add coordinates to boxfile
+                x_pos += char_w + 8.9 #+11.1
         self._save_tif(tif, page_nb)  # save last tif
 
     def _write_boxline(self, char, char_x0, char_y0, char_x1, char_y1, page_nb):
@@ -160,14 +185,22 @@ class MultiPageTif(object):
         """ Generate a multipage tif from all the generated tifs.
             The multipage tif will be named {self.prefix}.tif
         """
-        cmd = ['convert']  # ImageMagick command `convert` can merge individual tifs into a multipage tif file
+        #had to convert this to use os.system
+        #cmd = ['convert']  # ImageMagick command `convert` can merge individual tifs into a multipage tif file
+        cmd = 'convert -depth 1'
         tifs = sorted(glob.glob(self.indiv_page_prefix + '*.tif'), key=os.path.getmtime)
-        cmd.extend(tifs)  # add all individual tifs as arguments
+        for atif in tifs:
+            cmd = "".join([cmd," ",atif])
+        #cmd.extend(tifs)  # add all individual tifs as arguments
         multitif_name = self.prefix + '.tif'
-        cmd.append(multitif_name)  # name of the result multipage tif
+        #multitif_name = 'multi.tif' #hack for now
+        #cmd.append(multitif_name)  # name of the result multipage tif
+        cmd = "".join([cmd," ",multitif_name])
         if self.verbose:
             print('Generating multipage-tif %s' % (multitif_name))
-        subprocess.call(cmd)  # merge of all individul tifs into a multipage one
+        print(cmd)
+        #subprocess.call(cmd)  # merge of all individul tifs into a multipage one
+        os.system(cmd)
 
     def _clean(self):
         """ Remove all generated individual tifs """
@@ -194,4 +227,5 @@ def pil_coord_to_tesseract(pil_x, pil_y, tif_h):
         in PIL, (0,0) is at the top left corner and
         in tesseract boxfile format, (0,0) is at the bottom left corner.
     """
+    #return pil_x, pil_y
     return pil_x, tif_h - pil_y
